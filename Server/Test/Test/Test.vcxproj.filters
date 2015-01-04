@@ -13,10 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\ProjectFPS">
+      <UniqueIdentifier>{23f27c38-be7a-4c83-bf95-5ac9f4aa4be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ProjectFPS\_UnityBuild">
+      <UniqueIdentifier>{a552b9d4-6fda-4a0c-9204-26f48495080c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ProjectFPS\_HandlerDefine">
+      <UniqueIdentifier>{a4a49492-6691-45f5-871c-dc32a043e0fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ProjectFPS\Contents">
+      <UniqueIdentifier>{cc4487a8-adb2-4cc9-b918-3683a9433769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ProjectFPS\Contents\Login">
+      <UniqueIdentifier>{2f640140-a171-4776-bd2f-26c28cda7087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Unity01.cpp">
+      <Filter>소스 파일\ProjectFPS\_UnityBuild</Filter>
+    </ClCompile>
+    <ClCompile Include="Unity02.cpp">
+      <Filter>소스 파일\ProjectFPS\_UnityBuild</Filter>
+    </ClCompile>
+    <ClCompile Include="HandlerBase.cpp">
+      <Filter>소스 파일\ProjectFPS\_HandlerDefine</Filter>
+    </ClCompile>
+    <ClCompile Include="HandlerLogin.cpp">
+      <Filter>소스 파일\ProjectFPS\Contents\Login</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HandlerBase.h">
+      <Filter>소스 파일\ProjectFPS\_HandlerDefine</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerLogin.h">
+      <Filter>소스 파일\ProjectFPS\Contents\Login</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

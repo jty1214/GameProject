@@ -1,0 +1,9 @@
+enum PacketHandlerType {
+	PACKET_MIN = -1,
+
+	PACKET_LOGIN,
+	PACKET_LOGOUT,
+	PACKET_ECHO,
+
+	PACKET_MAX
+};
