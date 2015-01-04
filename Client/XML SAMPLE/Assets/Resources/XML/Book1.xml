@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<UnitSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Unit>
+		<Name>¸¶¸°</Name>
+		<HP>100</HP>
+		<ATK>10</ATK>
+		<DEF>5</DEF>
+		<EVD>6</EVD>
+		<VECTORX>1,1,1</VECTOR>
+	</Unit>
+	<Unit>
+		<Name>¸Þµñ</Name>
+		<HP>50</HP>
+		<ATK>4</ATK>
+		<DEF>1</DEF>
+		<EVD>2</EVD>
+	</Unit>
+</UnitSet>
