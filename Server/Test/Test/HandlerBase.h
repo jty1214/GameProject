@@ -10,30 +10,23 @@ const int MAX_LENGTH_SIZE = 32768;
 #define DEFINE_HANDLE( Type, TypeName ) \
 	TypeName TypeNameType;\
 
-#define CONSTRUCT_HANDLE( Type, TypeName ) \
+#define REGIST_HANDLE( Type, TypeName ) \
 	TypeName() \
 	{\
-		registHandle();\
-	}
-
-#define REGIST_HANDLE( Type, TypeName ) \
-	virtual void registHandle() \
-	{\
 		eType = Type;\
-		HandlerBase::getMapInstance()[Type] = this;\
+		HandlerBase::pHandlerMap[Type] = this;\
 	}
 
 class HandlerBase
 {
 protected :
 	PacketHandlerType eType;
-	virtual void registHandle() = 0;
 	virtual bool Do(BYTE *pStream, int nLength) = 0;
 
 private :
 	static bool isTypeValid(int eType);
 	static HandlerBase* find(int eType);
 public :
-	static HandlerBase** getMapInstance();
+	static HandlerBase* pHandlerMap[PACKET_MAX];
 	static bool execute(BYTE *pStream, int nRealPacketLength);
 };

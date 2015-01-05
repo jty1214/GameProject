@@ -1,8 +1,9 @@
 #pragma once
 
 #include "HandlerBase.h"
-#include "cstring"
-#include <cstdio>
+#include <cstring>
+
+HandlerBase* HandlerBase::pHandlerMap[];
 
 HandlerBase* HandlerBase::find(int eType)
 {
@@ -10,27 +11,12 @@ HandlerBase* HandlerBase::find(int eType)
 	{
 		return nullptr;
 	}
-	return getMapInstance()[eType];
+	return pHandlerMap[eType];
 }
 
 bool HandlerBase::isTypeValid(int eType)
 {
 	return (eType > PACKET_MIN) && (eType < PACKET_MAX);
-}
-
-HandlerBase** HandlerBase::getMapInstance()
-{
-	static HandlerBase** pHandlerMap = nullptr;
-
-	if (pHandlerMap == nullptr)
-	{
-		pHandlerMap = new HandlerBase*[PACKET_MAX];
-		for (int i = 0; i < PACKET_MAX; i++)
-		{
-			pHandlerMap[i] = nullptr;
-		}
-	}
-	return pHandlerMap;
 }
 
 bool HandlerBase::execute(BYTE *pStream, int nRealPacketLength)
