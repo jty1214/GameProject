@@ -28,6 +28,12 @@
     <Filter Include="소스 파일\ProjectFPS\Contents\Login">
       <UniqueIdentifier>{2f640140-a171-4776-bd2f-26c28cda7087}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\export">
+      <UniqueIdentifier>{5b46b12c-78a7-48f3-9757-5e61abce8ecb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\macro">
+      <UniqueIdentifier>{f4ceb003-8bdf-45ab-9310-72c7c8a5df5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
@@ -53,5 +59,19 @@
     <ClInclude Include="HandlerLogin.h">
       <Filter>소스 파일\ProjectFPS\Contents\Login</Filter>
     </ClInclude>
+    <ClInclude Include="msgpack.h">
+      <Filter>소스 파일\export</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="handler.import">
+      <Filter>소스 파일\macro</Filter>
+    </None>
+    <None Include="packer.import">
+      <Filter>소스 파일\macro</Filter>
+    </None>
+    <None Include="pkt.inl">
+      <Filter>소스 파일\export</Filter>
+    </None>
   </ItemGroup>
 </Project>

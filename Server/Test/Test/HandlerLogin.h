@@ -2,9 +2,9 @@
 
 #include "HandlerBase.h"
 
-class HandlerLogin : HandlerBase
+class HandlerLogin : private HandlerBase
 {
 public :
 	REGIST_HANDLE(PACKET_LOGIN, HandlerLogin);
-	virtual bool Do(BYTE *pStream, int nLength);
+	virtual bool Do(char * const pStream, size_t nLength);
 };

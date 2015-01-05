@@ -1,0 +1,10 @@
+
+#define DEFINE_HANDLE( Type, TypeName ) \
+	TypeName TypeNameType;\
+
+#define REGIST_HANDLE( Type, TypeName ) \
+	TypeName() \
+	{\
+		eType = Type;\
+		HandlerBase::pHandlerMap[Type] = this;\
+	}

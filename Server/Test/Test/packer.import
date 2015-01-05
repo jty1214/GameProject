@@ -1,0 +1,26 @@
+
+#define PACKET_CONVERT( pStream, nLength, Type, TypeName ) \
+	Type TypeName; \
+	{ \
+		msgpack::sbuffer sBuffer;\
+		sBuffer.write(pStream, nLength);\
+		\
+		msgpack::unpacked msg;\
+		msgpack::unpack(&msg,sBuffer.data(),sBuffer.size());\
+		msgpack::object obj = msg.get();\
+		\
+		obj.convert(TypeName);\
+	}
+
+#define BUFFER_CONVERT( TypeName, sBuffer) \
+	msgpack::sbuffer sBuffer;\
+	msgpack::pack(&sBuffer, TypeName);
+
+#define STREAM_CONVERT(TypeName , pStream, nLength) \
+	BUFFER_CONVERT(TypeName, sBuffer);\
+	char * pStream = new char[sizeof(int) + sizeof(size_t) + sBuffer.size()];\
+	size_t nLength = sBuffer.size();\
+	memcpy(pStream, (void *)&TypeName.ID, sizeof(int));\
+	memcpy(pStream + sizeof(int), (void *)&nLength, sizeof(size_t));\
+	memcpy(pStream + sizeof(int) + sizeof(size_t), sBuffer.data(), sBuffer.size());\
+	nLength += sizeof(int) + sizeof(size_t);
