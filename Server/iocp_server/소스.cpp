@@ -9,6 +9,8 @@
 
 int SocketCount = 0;
 
+const int SERVER_PORT = 9000;
+
 typedef struct //소켓정보를구조체화.
 {
 	SOCKET hClntSock;
@@ -94,7 +96,7 @@ int main(int argc, char** argv)
 	// 소켓을 만들때는 꼭 중첩 입출력 형식으로 만들어 주어야 한다.
 	servAddr.sin_family = AF_INET;
 	servAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-	servAddr.sin_port = htons(9000);
+	servAddr.sin_port = htons(SERVER_PORT);
 
 	bind(hServSock, (SOCKADDR*)&servAddr, sizeof(servAddr));
 	listen(hServSock, 5);
@@ -212,7 +214,9 @@ DWORD WINAPI CompletionThread(LPVOID pComPort)
 			continue;
 		}
 		PerIoData->wsaBuf.buf[BytesTransferred] = '\0';
+#if PRINT_LOG
 		printf("Recv[%s]\n", PerIoData->wsaBuf.buf);
+#endif
 		// 6. 메시지! 클라이언트로에코.
 		PerIoData->wsaBuf.len = BytesTransferred;
 		WSASend(PerHandleData->hClntSock, &(PerIoData->wsaBuf), 1, NULL, 0, NULL, NULL);
@@ -230,7 +234,9 @@ DWORD WINAPI CompletionThread(LPVOID pComPort)
 
 void ErrorHandling(char *message)
 {
+#if PRINT_LOG
 	fputs(message, stderr);
 	fputc('\n', stderr);
 	exit(1);
+#endif
 }
