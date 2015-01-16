@@ -1,0 +1,18 @@
+﻿빌드 시작: 2015-01-14 오후 9:50:34
+     1>2 노드의 "C:\Users\JTY\Desktop\FPSServer\FPSServer.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W1 /WX- /O2 /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D MARKUP_STL /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"PRINT_LOG\\" /Fd"PRINT_LOG\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Markup.cpp Server.cpp
+         Markup.cpp
+         Server.cpp
+         코드를 생성하고 있습니다...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\JTY\Desktop\FPSServer\PRINT_LOG\FPSServer.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:"C:\Users\JTY\Desktop\FPSServer\PRINT_LOG\FPSServer.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\JTY\Desktop\FPSServer\PRINT_LOG\FPSServer.lib" /MACHINE:X86 /SAFESEH PRINT_LOG\Markup.obj
+         PRINT_LOG\Server.obj
+     1>Markup.obj : error LNK2019: __imp___CrtDbgReportW 외부 기호(참조 위치: "public: char const & __thiscall std::_String_const_iterator<class std::_String_val<struct std::_Simple_types<char> > >::operator*(void)const " (??D?$_String_const_iterator@V?$_String_val@U?$_Simple_types@D@std@@@std@@@std@@QBEABDXZ) 함수)에서 확인하지 못했습니다.
+     1>Server.obj : error LNK2001: __imp___CrtDbgReportW 외부 기호를 확인할 수 없습니다.
+     1>C:\Users\JTY\Desktop\FPSServer\PRINT_LOG\FPSServer.exe : fatal error LNK1120: 1개의 확인할 수 없는 외부 참조입니다.
+     1>"C:\Users\JTY\Desktop\FPSServer\FPSServer.vcxproj" 프로젝트를 빌드했습니다(Build 대상). - 실패
+
+빌드하지 못했습니다.
+
+경과 시간: 00:00:01.26

@@ -1,0 +1,6 @@
+C:\Users\JTY\Desktop\FPSClient\bin\Debug\FPSClient.exe.config
+C:\Users\JTY\Desktop\FPSClient\bin\Debug\FPSClient.exe
+C:\Users\JTY\Desktop\FPSClient\bin\Debug\FPSClient.pdb
+C:\Users\JTY\Desktop\FPSClient\obj\Debug\FPSClient.csprojResolveAssemblyReference.cache
+C:\Users\JTY\Desktop\FPSClient\obj\Debug\FPSClient.exe
+C:\Users\JTY\Desktop\FPSClient\obj\Debug\FPSClient.pdb

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FPSServer", "FPSServer.vcxproj", "{FFC52164-516F-43DB-A74A-E2F192F5A435}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		PRINT_LOG|Win32 = PRINT_LOG|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFC52164-516F-43DB-A74A-E2F192F5A435}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FFC52164-516F-43DB-A74A-E2F192F5A435}.Debug|Win32.Build.0 = Debug|Win32
+		{FFC52164-516F-43DB-A74A-E2F192F5A435}.PRINT_LOG|Win32.ActiveCfg = PRINT_LOG|Win32
+		{FFC52164-516F-43DB-A74A-E2F192F5A435}.PRINT_LOG|Win32.Build.0 = PRINT_LOG|Win32
+		{FFC52164-516F-43DB-A74A-E2F192F5A435}.Release|Win32.ActiveCfg = Release|Win32
+		{FFC52164-516F-43DB-A74A-E2F192F5A435}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
