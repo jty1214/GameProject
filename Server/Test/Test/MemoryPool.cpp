@@ -101,8 +101,7 @@ void MemoryPool::free(void* object)
 	if (result == mPool->mMap.end())
 	{
 		// 중요한 녀석이니 에러 메시지를 찍고 크래시를 낸다.
-		puts("잘못된 메모리를 해제하려고 함");
-		assert(false);
+		assert(false && "잘못된 메모리를 해제하려고 함");
 		exit(0);
 	}
 	int nIndex = mPool->mMap[object];
