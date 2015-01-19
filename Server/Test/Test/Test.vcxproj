@@ -90,7 +90,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="MemoryPool.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Unity01.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
@@ -103,11 +110,15 @@
   <ItemGroup>
     <ClInclude Include="HandlerBase.h" />
     <ClInclude Include="HandlerLogin.h" />
+    <ClInclude Include="MemoryPool.h" />
+    <ClInclude Include="MemPoolObject.h" />
     <ClInclude Include="msgpack.h" />
+    <ClInclude Include="Ptr.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="handler.import" />
-    <None Include="packer.import" />
+    <None Include="handler.macro" />
+    <None Include="Initializer.h" />
+    <None Include="packer.macro" />
     <None Include="pkt.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

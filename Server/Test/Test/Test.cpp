@@ -1,5 +1,7 @@
 #include <iostream>
 #include "HandlerLogin.h"
+#include "Initializer.h"
+#include "MemPoolObject.h"
 
 #include "msgpack.h"
 #pragma region 사용되는 패킷 선언
@@ -8,7 +10,20 @@
 
 using namespace std;
 
+class Tmp : public MemPoolObject
+{
+	int p;
+public:
+	Tmp() { static int n = 0; printf("%d\n", ++n); p = n; }
+	~Tmp() { static int m = 0; printf("%d\n",--m); }
+	void print() { printf("saved : %d\n", p); }
+
+	Tmp(int t) { p = t; }
+};
+
 int main() {
+	Initialize();
+
 	HandlerLogin la;
 	int n = 74;
 
@@ -31,4 +46,38 @@ int main() {
 	delete[] pStream;
 	
 	cout << n << endl;
+	{
+		std::vector<std::shared_ptr<Tmp>> vec;
+		for (int i = 0; i < n; i++)
+		{
+//			auto p = constructor<Tmp>();
+			vec.push_back(std::shared_ptr<Tmp>(new Tmp()));// shared_ptr<Tmp>(MemoryPool::malloc<Tmp>(), destructor<Tmp>()));
+		}
+		for (int i = 0; i < vec.size(); i++)
+		{
+			vec[i]->print();
+		}
+	}
+	{
+		std::shared_ptr<int> tt = std::shared_ptr<int>(MemoryPool::malloc<int>(124), destructor<int>());
+		Tmp* arr = MemoryPool::malloc<Tmp>(100);
+		std::string* arr2 = new std::string[100];
+		for (int i = 0; i < 100; i++)
+		{
+			arr[i].print();
+			arr2[i] = "Hello" + i;
+		}
+		MemoryPool::free(arr);
+		// 중요! malloc<T>(size)로 하면, 선형적인 메모리가 잡힌다. 따라서 delete[] arr; 를 호출하게 되면 서버 크래시를 경험할 것이다.
+		// ( new T[size] -> delete [] )가 맞고, ( malloc<T>(size)는 free(ptr) 이 맞다. 이 둘을 섞어쓰는 당신은 헬게이트가 오픈될지어니...
+	}
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			Tmp* arr = MemoryPool::malloc<Tmp>();
+			arr->print();
+			MemoryPool::free(arr);
+		}
+	}
+	system("pause");
 }

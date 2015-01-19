@@ -5,8 +5,8 @@
 
 const int MAX_LENGTH_SIZE = 32768;
 
-#include "handler.import"
-#include "packer.import"
+#include "handler.macro"
+#include "packer.macro"
 
 class HandlerBase
 {

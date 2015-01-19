@@ -34,6 +34,12 @@
     <Filter Include="소스 파일\macro">
       <UniqueIdentifier>{f4ceb003-8bdf-45ab-9310-72c7c8a5df5c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\ProjectFPS\Core">
+      <UniqueIdentifier>{42c91b61-3107-4673-9100-4fb3eafa3db9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ProjectFPS\Core\MemoryPool">
+      <UniqueIdentifier>{164aafcc-e5b8-4d46-b311-98d179799ddd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
@@ -51,6 +57,9 @@
     <ClCompile Include="HandlerLogin.cpp">
       <Filter>소스 파일\ProjectFPS\Contents\Login</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryPool.cpp">
+      <Filter>소스 파일\ProjectFPS\Core\MemoryPool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HandlerBase.h">
@@ -62,16 +71,28 @@
     <ClInclude Include="msgpack.h">
       <Filter>소스 파일\export</Filter>
     </ClInclude>
+    <ClInclude Include="Ptr.h">
+      <Filter>소스 파일\ProjectFPS\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>소스 파일\ProjectFPS\Core\MemoryPool</Filter>
+    </ClInclude>
+    <ClInclude Include="MemPoolObject.h">
+      <Filter>소스 파일\ProjectFPS\Core\MemoryPool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="handler.import">
-      <Filter>소스 파일\macro</Filter>
-    </None>
-    <None Include="packer.import">
-      <Filter>소스 파일\macro</Filter>
-    </None>
     <None Include="pkt.inl">
       <Filter>소스 파일\export</Filter>
+    </None>
+    <None Include="handler.macro">
+      <Filter>소스 파일\macro</Filter>
+    </None>
+    <None Include="packer.macro">
+      <Filter>소스 파일\macro</Filter>
+    </None>
+    <None Include="Initializer.h">
+      <Filter>소스 파일\ProjectFPS\Core</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -3,8 +3,6 @@
 #include "HandlerBase.h"
 #include <cstring>
 
-HandlerBase* HandlerBase::pHandlerMap[];
-
 HandlerBase* HandlerBase::find(int eType)
 {
 	if (isTypeValid(eType) == false)
