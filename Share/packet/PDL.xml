@@ -1,0 +1,23 @@
+<PDL Version="1">
+	<Packet name="REQUEST_ENTER_CHANNEL" from="Client" to="Server">
+		<Var type="int" name="world"/>
+		<Var type="int" name="channel"/>
+	</Packet>
+
+	<Packet name="RESPONSE_ENTER_CHANNEL" from="Server" to="Client">
+		<Var type="bool" name="valid"/>
+		<Var type="long" name="enterChannelTime"/>
+	</Packet>
+
+	<Packet name="REQUEST_FRIEND_LIST" from="Client" to="Server">
+	</Packet>
+
+	<Packet name="RESPONSE_FRIEND_LIST" from="Server" to="Client">
+		<List name="friendList">
+			<Var type="string" name="userName"/>
+			<Var type="long" name="userServerId"/>
+			<Var type="int" name="userGrade"/>
+			<Var type="int" name="userSubGrade"/>
+		</List>
+	</Packet>
+</PDL>
