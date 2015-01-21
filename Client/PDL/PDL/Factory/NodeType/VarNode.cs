@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PDL.Factory.NodeType
 {
-    class VarCommand : ICommand
+    class VarNode : NodeInterface
     {
         public void exec()
         {

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PDL
 {
-    public interface ICommand
+    public interface NodeInterface
     {
-       void exec();
+        void exec();
     }
 }
