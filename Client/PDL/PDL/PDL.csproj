@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factory\AttributeInterface.cs" />
+    <Compile Include="Factory\ChildInterface.cs" />
     <Compile Include="Factory\CommandFactory.cs" />
-    <Compile Include="Factory\ICommand.cs" />
-    <Compile Include="Factory\NodeType\VarCommand.cs" />
+    <Compile Include="Factory\NodeInterface.cs" />
+    <Compile Include="Factory\NodeType\AttributeNode.cs" />
+    <Compile Include="Factory\NodeType\VarNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
