@@ -8,11 +8,11 @@ namespace PDL
 {
     public class CommandFactory
     {
-        private readonly IDictionary<string, Func<ICommand>> _commands;
+        private readonly IDictionary<string, Func<NodeInterface>> _commands;
 
         public CommandFactory()
         {
-            _commands = new Dictionary<string, Func<ICommand>>
+            _commands = new Dictionary<string, Func<NodeInterface>>
                         {
       //                      {"A", () => new CommandA()},
        //                     {"B", () => new CommandB()},
@@ -20,9 +20,9 @@ namespace PDL
                         };
         }
 
-        public ICommand GetCommand(string jobKey)
+        public NodeInterface GetCommand(string jobKey)
         {
-            Func<ICommand> command;
+            Func<NodeInterface> command;
             _commands.TryGetValue(jobKey.ToUpper(), out command);
             return command();
         }
