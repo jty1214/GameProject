@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace PDL.Factory
 {
-    public interface NodeInterface
+    interface AttributeInterface : ChildInterface
     {
-        void add(NodeInterface node);
-        void exec();
     }
 }

@@ -8,6 +8,11 @@ namespace PDL.Factory.NodeType
 {
     class VarNode : NodeInterface
     {
+        List<AttributeInterface> childList;
+        public void add(NodeInterface node)
+        {
+
+        }
         public void exec()
         {
 
