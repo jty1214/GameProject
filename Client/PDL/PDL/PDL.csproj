@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\AttributeInterface.cs" />
-    <Compile Include="Factory\ChildInterface.cs" />
-    <Compile Include="Factory\CommandFactory.cs" />
-    <Compile Include="Factory\NodeInterface.cs" />
+    <Compile Include="Factory\Interface\AttributeInterface.cs" />
+    <Compile Include="Factory\Interface\ChildInterface.cs" />
+    <Compile Include="Factory\CommandFactory\CommandFactory.cs" />
+    <Compile Include="Factory\Interface\NodeInterface.cs" />
     <Compile Include="Factory\NodeType\AttributeNode.cs" />
     <Compile Include="Factory\NodeType\VarNode.cs" />
     <Compile Include="Program.cs" />

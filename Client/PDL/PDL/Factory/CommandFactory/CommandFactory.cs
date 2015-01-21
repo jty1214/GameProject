@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDL.Factory
+using PDL.Factory.Interface;
+
+namespace PDL.Factory.CommandFactory
 {
     public class CommandFactory
     {

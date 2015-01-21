@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDL.Factory
+namespace PDL.Factory.Interface
 {
-    interface ChildInterface : NodeInterface
+    interface AttributeInterface : ChildInterface
     {
     }
 }

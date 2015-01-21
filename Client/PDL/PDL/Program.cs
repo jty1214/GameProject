@@ -52,22 +52,22 @@ namespace PDL
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 Console.WriteLine(DirectoryPath.Impact() + "에서 " + PDLFileName.Impact() + "을 찾을 수 없습니다.");
                 return;
             }
-            catch (DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException)
             {
                 Console.WriteLine(DirectoryPath.Impact() + "를 찾을 수 없습니다.");
                 return;
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 Console.WriteLine(PDLPath.Impact() + "가 비어있습니다. 채우는 부분을 확인해주세요.");
                 return;
             }
-            catch (UriFormatException e)
+            catch (UriFormatException)
             {
                 Console.WriteLine(PDLPath.Impact() + "가 유효하지 않습니다. 확인해주세요.");
                 return;

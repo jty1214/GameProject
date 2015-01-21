@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using PDL.Factory.Interface;
+
 namespace PDL.Factory.NodeType
 {
     class AttributeNode<T> : AttributeInterface
@@ -17,9 +19,10 @@ namespace PDL.Factory.NodeType
             this.Value = Value;
         }
 
-        public void add(NodeInterface node)
+        public bool add(ChildInterface node)
         {
             Console.WriteLine("Attribute에는 자식이 있을 수 없습니다.");
+            return false;
         }
         public void exec()
         {

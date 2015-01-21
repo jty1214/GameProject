@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDL.Factory
+namespace PDL.Factory.Interface
 {
-    interface AttributeInterface : ChildInterface
+    public interface NodeInterface
     {
+        bool add(ChildInterface node);
+        void exec();
     }
 }
