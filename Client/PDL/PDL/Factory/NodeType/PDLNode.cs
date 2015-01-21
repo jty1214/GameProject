@@ -12,10 +12,23 @@ namespace PDL.Factory.NodeType
     {
         public List<ChildInterface> childList;
 
-        public bool add(ChildInterface node)
+        public PDLNode ()
         {
-            childList.Add(node);
-            return true;
+            childList = new List<ChildInterface>();
+        }
+
+        public bool add(NodeInterface node)
+        {
+            if (node is ChildInterface)
+            {
+                childList.Add(node as ChildInterface);
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("자식 타입이어야 합니다.");
+                return false;
+            }
         }
 
         public void exec()

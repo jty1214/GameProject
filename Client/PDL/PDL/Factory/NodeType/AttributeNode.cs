@@ -19,7 +19,7 @@ namespace PDL.Factory.NodeType
             this.Value = Value;
         }
 
-        public bool add(ChildInterface node)
+        public bool add(NodeInterface node)
         {
             Console.WriteLine("Attribute에는 자식이 있을 수 없습니다.");
             return false;

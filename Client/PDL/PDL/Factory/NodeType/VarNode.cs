@@ -17,7 +17,7 @@ namespace PDL.Factory.NodeType
             childList = new List<AttributeInterface>();
         }
 
-        public bool add(ChildInterface node)
+        public bool add(NodeInterface node)
         {
             if( node is AttributeInterface )
             {

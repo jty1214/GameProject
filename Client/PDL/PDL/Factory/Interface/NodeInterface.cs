@@ -8,7 +8,7 @@ namespace PDL.Factory.Interface
 {
     public interface NodeInterface
     {
-        bool add(ChildInterface node);
+        bool add(NodeInterface node);
         void exec();
     }
 }
