@@ -23,3 +23,5 @@
 *.idb
 *.pb.*
 *.log
+Client/PDL/PDL/bin/
+Client/PDL/PDL/obj/
