@@ -14,7 +14,7 @@ namespace PDL.Helper
 {
     public static class BuildDataCenter
     {
-        public static NodeInterface GetDataCenter(ref String Parser, StreamWriter Log)
+        public static NodeInterface GetDataCenter(this String Parser, StreamWriter Log)
         {
             String[] ElementList = Parser.Split(';');
             Log.Write("Split Elements OK");

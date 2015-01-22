@@ -25,7 +25,7 @@ namespace PDL
             FileStream ErrorLog;
             try
             {
-                ErrorLog = new FileStream(GeneratePath+"\\Log.txt", FileMode.Create, FileAccess.Write);
+                ErrorLog = new FileStream(GeneratePath + "\\" + TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now).ToShortDateString() + ".log", FileMode.Append, FileAccess.Write);
             }
             catch (Exception e)
             {
@@ -36,6 +36,11 @@ namespace PDL
 
             String PDLPath = DirectoryPath + "\\" + PDLFileName;
             XmlTextReader Reader = new XmlTextReader(PDLPath);
+
+            Log.WriteLine("========================");
+            Log.Write("Log Trace Start : ");
+            Log.WriteTime();
+            Log.WriteLine("========================");
 
             Log.Write(PDLPath+" Read OK");
             Log.WriteTime();
@@ -51,10 +56,10 @@ namespace PDL
                 return;
             }
 
-            Log.Write(PDLPath + "Parsing OK");
+            Log.Write(PDLPath + " Parsing OK");
             Log.WriteTime();
 
-            NodeInterface RootNode = BuildDataCenter.GetDataCenter(ref Parser, Log);
+            NodeInterface RootNode = Parser.GetDataCenter(Log);
 
             if( RootNode == null )
             {
