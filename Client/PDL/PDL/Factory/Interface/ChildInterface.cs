@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PDL.Factory.Interface
 {
-    interface ChildInterface : NodeInterface
+    public abstract class ChildInterface : NodeInterface
     {
     }
 }

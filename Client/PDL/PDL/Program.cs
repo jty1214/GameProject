@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
 
+using PDL.Helper;
+using PDL.Factory.Interface;
+
 namespace PDL
 {
     class Program
@@ -14,72 +17,56 @@ namespace PDL
         static void Main(string[] args)
         {
             String DirectoryPath = Directory.GetCurrentDirectory();
-            String GeneratePath = ".";
-            if (args.Length >= 1)
-            {
-                DirectoryPath = args[0];
-            }
-            if (args.Length >= 2)
-            {
-                GeneratePath = args[1];
-            }
+            if (args.Length >= 1) DirectoryPath = args[0];
 
-            String PDLPath = DirectoryPath + "\\" + PDLFileName;
-            XmlTextReader reader = null;
-            reader = new XmlTextReader(PDLPath);
+            String GeneratePath = Directory.GetCurrentDirectory();
+            if (args.Length >= 2) GeneratePath = args[1];
 
+            FileStream ErrorLog;
             try
             {
-                while (reader.Read())
-                {
-                    switch (reader.NodeType)
-                    {
-                        case XmlNodeType.Element:
-                            Console.WriteLine("Node Name : " + reader.Name + ", Depth : " + reader.Depth);
+                ErrorLog = new FileStream(GeneratePath+"\\Log.txt", FileMode.Create, FileAccess.Write);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+            StreamWriter Log = new StreamWriter(ErrorLog, Encoding.UTF8);
 
-                            while (reader.MoveToNextAttribute())
-                            {
-                                Console.WriteLine("Attribute Name : " + reader.Name);
-                                Console.WriteLine("Attribute Value : " + reader.Value);
-                            }
-                            break;
-                        case XmlNodeType.EndElement:
-                            Console.WriteLine("EndNode :" + reader.Name);
-                            break;
+            String PDLPath = DirectoryPath + "\\" + PDLFileName;
+            XmlTextReader Reader = new XmlTextReader(PDLPath);
 
-                        case XmlNodeType.Text: break;
-                        case XmlNodeType.Whitespace: break;
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine(DirectoryPath.Impact() + "에서 " + PDLFileName.Impact() + "을 찾을 수 없습니다.");
-                return;
-            }
-            catch (DirectoryNotFoundException)
-            {
-                Console.WriteLine(DirectoryPath.Impact() + "를 찾을 수 없습니다.");
-                return;
-            }
-            catch (InvalidOperationException)
-            {
-                Console.WriteLine(PDLPath.Impact() + "가 비어있습니다. 채우는 부분을 확인해주세요.");
-                return;
-            }
-            catch (UriFormatException)
-            {
-                Console.WriteLine(PDLPath.Impact() + "가 유효하지 않습니다. 확인해주세요.");
-                return;
-            }
-        }
-    }
+            Log.Write(PDLPath+" Read OK");
+            Log.WriteTime();
 
-    static class StringHelper
-    {
-        public static String Impact(this String name)
-        {
-            return "[" + name + "]";
+            String Parser = "";
+            // 파싱에 실패한 경우
+            if ( XMLReadHelper.XMLParsing(ref Parser, Reader, Log) == false)
+            {
+                Log.Write(PDLPath + " Parsing Error");
+                Log.WriteTime();
+                Log.Close();
+
+                return;
+            }
+
+            Log.Write(PDLPath + "Parsing OK");
+            Log.WriteTime();
+
+            NodeInterface RootNode = BuildDataCenter.GetDataCenter(ref Parser, Log);
+
+            if( RootNode == null )
+            {
+                Log.Write("Fail to make DataCenter");
+                Log.WriteTime();
+                Log.Close();
+                return;
+            }
+
+            Log.Write("Making DataCenter is OK");
+            Log.WriteTime();
+            Log.Close();
         }
     }
 }

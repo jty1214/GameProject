@@ -8,29 +8,9 @@ using PDL.Factory.Interface;
 
 namespace PDL.Factory.NodeType
 {
-    class VarNode : NodeInterface
+    class VarNode : ChildInterface
     {
-        public List<AttributeInterface> childList;
-
-        public VarNode()
-        {
-            childList = new List<AttributeInterface>();
-        }
-
-        public bool add(NodeInterface node)
-        {
-            if( node is AttributeInterface )
-            {
-                childList.Add(node as AttributeInterface);
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("VarNode에는 Attribute만 입력 가능합니다.");
-                return false;
-            }
-        }
-        public void exec()
+        public override void exec()
         {
 
         }

@@ -41,15 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\Interface\AttributeInterface.cs" />
+    <Compile Include="Helper\BuildDataCenter.cs" />
+    <Compile Include="Factory\Attribute.cs" />
     <Compile Include="Factory\Interface\ChildInterface.cs" />
     <Compile Include="Factory\CommandFactory\CommandFactory.cs" />
     <Compile Include="Factory\Interface\NodeInterface.cs" />
-    <Compile Include="Factory\NodeType\AttributeNode.cs" />
     <Compile Include="Factory\NodeType\ListNode.cs" />
     <Compile Include="Factory\NodeType\PacketNode.cs" />
     <Compile Include="Factory\NodeType\PDLNode.cs" />
     <Compile Include="Factory\NodeType\VarNode.cs" />
+    <Compile Include="Helper\XMLReadHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
