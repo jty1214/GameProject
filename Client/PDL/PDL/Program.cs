@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
+using System.Runtime.InteropServices;
 
 using PDL.Helper;
 using PDL.Factory.Interface;
@@ -22,10 +23,16 @@ namespace PDL
             String GeneratePath = Directory.GetCurrentDirectory();
             if (args.Length >= 2) GeneratePath = args[1];
 
+            String LogFilePath = Directory.GetCurrentDirectory();
+            if (args.Length >= 3) LogFilePath = args[2];
+
+            String ProgramLanguage = "C#";
+            if (args.Length >= 4) ProgramLanguage = args[3];
+
             FileStream ErrorLog;
             try
             {
-                ErrorLog = new FileStream(GeneratePath + "\\" + TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now).ToShortDateString() + ".log", FileMode.Append, FileAccess.Write);
+                ErrorLog = new FileStream(LogFilePath + "\\" + TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now).ToShortDateString() + ".log", FileMode.Append, FileAccess.Write);
             }
             catch (Exception e)
             {
@@ -70,6 +77,53 @@ namespace PDL
             }
 
             Log.Write("Making DataCenter is OK");
+            Log.WriteTime();
+
+            String MakeFileName;
+            switch(ProgramLanguage)
+            {
+                case "C#":
+                    {
+                        MakeFileName = "gPDL.cs";
+                        FileStream GeneratedFile;
+                        try
+                        {
+                            GeneratedFile = new FileStream(GeneratePath + "\\" + MakeFileName, FileMode.Create, FileAccess.Write);
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            return;
+                        }
+
+                        StreamWriter Generator = new StreamWriter(GeneratedFile, Encoding.UTF8);
+
+                        if( RootNode.exec_CSharp(Generator, Log) == true )
+                        {
+                            Generator.Close();
+                            Log.Write("Making \"" + MakeFileName + "\" is OK");
+                            Log.WriteTime();
+                        }
+                        else
+                        {
+                            Log.Write("Fail to Make \"" + MakeFileName + "\"");
+                            Log.WriteTime();
+                            Log.Close();
+                            return;
+                        }
+                        break;
+                    }
+                default :
+                    {
+                        Log.Write("Invalid Program Language : " + ProgramLanguage);
+                        Log.WriteTime();
+                        Log.Close();
+                        return;
+                    }
+            }
+
+            Log.WriteLine("========================");
+            Log.Write("Log Trace End : ");
             Log.WriteTime();
             Log.Close();
         }
