@@ -1,4 +1,4 @@
-<PDL Version="1">
+<PDL Version="2">
 	<Packet name="REQUEST_ENTER_CHANNEL" from="Client" to="Server">
 		<Var type="int" name="world"/>
 		<Var type="int" name="channel"/>
@@ -13,7 +13,7 @@
 	</Packet>
 
 	<Packet name="RESPONSE_FRIEND_LIST" from="Server" to="Client">
-		<List name="friendList">
+		<List class="FRIEND_LIST" name="friendList">
 			<Var type="string" name="userName"/>
 			<Var type="long" name="userServerId"/>
 			<Var type="int" name="userGrade"/>
