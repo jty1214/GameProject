@@ -9,6 +9,7 @@ using PDL.Helper;
 
 using PDL.Factory.Interface;
 using PDL.Factory.NodeType;
+using PDL.Factory.CommandFactory;
 
 namespace PDL.Helper
 {
@@ -16,6 +17,9 @@ namespace PDL.Helper
     {
         public static NodeInterface GetDataCenter(this String Parser, StreamWriter Log)
         {
+            // 유효한 노드들을 미리 등록해놓는다.
+            NodeHelper.RegistNodeList();
+
             String[] ElementList = Parser.Split(';');
             Log.Write("Split Elements OK");
             Log.WriteTime();
@@ -40,7 +44,13 @@ namespace PDL.Helper
                         {
                             String NodeName = NodeInfo[1].ToLower();
                             int NodeDepth = int.Parse(NodeInfo[2]);
-                            NodeInterface Node = NodeMaker(NodeName);
+                            NodeInterface Node = NodeHelper.NodeMaker(NodeName);
+                            if( Node == null )
+                            {
+                                Log.Write("NodeName ["+NodeName+"] need Check");
+                                Log.WriteTime();
+                                return null;
+                            }
                             Node.Depth = NodeDepth;
 
                             if (NodeStack.Count == 0)
@@ -96,7 +106,7 @@ namespace PDL.Helper
                             String NodeName = NodeInfo[1].ToLower();
                             int NodeDepth = int.Parse(NodeInfo[2]);
 
-                            Type eType = NodeMaker(NodeName).GetType();
+                            Type eType = NodeHelper.NodeMaker(NodeName).GetType();
                             if( eType == null)
                             {
                                 Log.Write(NodeName + "need to write into dictionary");
@@ -137,18 +147,6 @@ namespace PDL.Helper
                 }
             }
             return RootNode;
-        }
-
-        private static NodeInterface NodeMaker(String Type)
-        {
-            switch(Type)
-            {
-                case "packet"   : return new PacketNode();
-                case "var"      : return new VarNode();
-                case "list"     : return new ListNode();
-                case "pdl"      : return new PDLNode();
-                default         : return null;
-            }
         }
     }
 }

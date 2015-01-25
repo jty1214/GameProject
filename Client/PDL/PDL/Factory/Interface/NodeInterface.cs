@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 using PDL.Factory;
 using System.IO;
 
+using PDL.Factory.CommandFactory;
+using PDL.Factory.Language;
+
 namespace PDL.Factory.Interface
 {
     public abstract class NodeInterface
+        : CSharp
     {
         public List<ChildInterface> ChildNodeList;
         public Dictionary<String, String> Attributes;
@@ -29,8 +33,6 @@ namespace PDL.Factory.Interface
         {
             Attributes.Add(attr.Key, attr.Value);
         }
-        abstract public bool exec_CSharp(StreamWriter Generator, StreamWriter Log);
-        abstract public void GetStreamLength_CSharp(StreamWriter Generator);
-        abstract public void Serialize_CSharp(StreamWriter Generator);
+        abstract public String GetName();
     }
 }
