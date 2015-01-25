@@ -103,7 +103,6 @@ void MemoryPool::free(void* object)
 	// 메모리 풀 소속이 아닌 엉뚱한 애를 해제하려고 하면(ex, 배열을 받고 중간부터 해제하려고 하는 경우) 서버 크래시낸다.
 	if (result == mPool->mMap.end())
 	{
-		if ( object)
 		// 중요한 녀석이니 에러 메시지를 찍고 크래시를 낸다.
 		assert(false && "잘못된 메모리를 해제하려고 함");
 		exit(0);
