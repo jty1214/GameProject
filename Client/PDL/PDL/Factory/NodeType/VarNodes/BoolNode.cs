@@ -40,11 +40,16 @@ namespace PDL.Factory.NodeType
         }
         public override void Serialize_CSharp(StreamWriter Generator, String Parent="")
         {
-            Generator.WriteLine(this.space(1) + "foreach(byte " + Attributes["name"] + "i in BitConverter.GetBytes(" + Parent + Attributes["name"] + ").Reverse() )");
+            Generator.WriteLine(this.space(1) + "foreach(byte " + Attributes["name"] + "i" + Depth + " in BitConverter.GetBytes(" + Parent + Attributes["name"] + ") )");
             Generator.WriteLine(this.space(1) + "{");
-            Generator.WriteLine(this.space(2) + "stream[index++] = " + Attributes["name"] + "i;");
+            Generator.WriteLine(this.space(2) + "stream[index++] = " + Attributes["name"] + "i" + Depth + ";");
             Generator.WriteLine(this.space(1) + "}");
             //놀자!!
+        }
+        public override void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type = "")
+        {
+            Generator.WriteLine(this.space(1) + Parent + Attributes["name"] + " = BitConverter.ToBoolean(stream, index);");
+            Generator.WriteLine(this.space(1) + "index += sizeof(Boolean);");
         }
     }
 }

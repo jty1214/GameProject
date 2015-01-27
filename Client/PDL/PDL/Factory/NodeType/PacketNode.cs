@@ -22,7 +22,22 @@ namespace PDL.Factory.NodeType
         {
             try
             {
-                Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_" + ((Attributes["from"].ToLower() == "client") ? "WRITE" : "READ"));
+                if (Attributes["from"].ToLower() == "client")
+                {
+                    Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_WRITE");
+                }
+                else if (Attributes["from"].ToLower() == "server")
+                {
+                    Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_READ");
+                }
+                else if (Attributes["from"].ToLower() == "both")
+                {
+                    Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_BOTH");
+                }
+                else
+                {
+                    return false;
+                }
                 Generator.WriteLine(this.space() + "{");
                 
                 for (int i = 0; i < ChildNodeList.Count; i++)
@@ -33,7 +48,23 @@ namespace PDL.Factory.NodeType
                     }
                 }
 
-                Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_" + ((Attributes["from"].ToLower() == "client") ? "WRITE" : "READ") + "()");
+                if (Attributes["from"].ToLower() == "client")
+                {
+                    Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_WRITE()");
+                }
+                else if (Attributes["from"].ToLower() == "server")
+                {
+                    Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_READ()");
+                }
+                else if (Attributes["from"].ToLower() == "both")
+                {
+                    Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_BOTH()");
+                }
+                else
+                {
+                    return false;
+                }
+                
                 Generator.WriteLine(this.space(1) + "{");
 
                 for (int i = 0; i < ChildNodeList.Count; i++)
@@ -43,9 +74,21 @@ namespace PDL.Factory.NodeType
 
                 Generator.WriteLine(this.space(1) + "}");
 
-                this.GetStreamLength_CSharp(Generator);
-                this.Serialize_CSharp(Generator);
-
+                if (Attributes["from"].ToLower() == "both") // "_BOTH"
+                {
+                    this.GetStreamLength_CSharp(Generator);
+                    this.Serialize_CSharp(Generator);
+                    this.Parsing_CSharp(Generator);
+                }
+                else if (Attributes["from"].ToLower() == "client") // "_WRITE"
+                {
+                    this.GetStreamLength_CSharp(Generator);
+                    this.Serialize_CSharp(Generator);
+                }
+                else if (Attributes["from"].ToLower() == "server") // "_READ"
+                {
+                    this.Parsing_CSharp(Generator);
+                }
                 Generator.WriteLine(this.space() + "}");
 
                 return true;
@@ -83,6 +126,22 @@ namespace PDL.Factory.NodeType
             for (int i = 0; i < ChildNodeList.Count; i++)
             {
                 ChildNodeList[i].Serialize_CSharp(Generator);
+            }
+
+            Generator.WriteLine(this.space(1) + "}");
+        }
+        public override void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type = "")
+        {
+            Generator.WriteLine(this.space(1) + "public void Parsing(byte[] stream)");
+            Generator.WriteLine(this.space(1) + "{");
+            if (ChildNodeList.Count > 0)
+            {
+                Generator.WriteLine(this.space(2) + "Int32 index = 0;");
+            }
+
+            for (int i = 0; i < ChildNodeList.Count; i++)
+            {
+                ChildNodeList[i].Parsing_CSharp(Generator);
             }
 
             Generator.WriteLine(this.space(1) + "}");

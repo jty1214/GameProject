@@ -36,23 +36,29 @@ namespace PDL.Factory.NodeType
         public override void GetStreamLength_CSharp(StreamWriter Generator, String Parent="")
         {
             Generator.WriteLine(this.space(1) + "size += sizeof(Int32);");  // 갯수 먼저 보내주고~
-            Generator.WriteLine(this.space(1) + "size += " + Parent + Attributes["name"] + ".Length * sizeof(char);");   // 진짜 개수만큼 더해주고~
+            Generator.WriteLine(this.space(1) + "size += Encoding.Default.GetBytes(" + Parent + Attributes["name"] + ").Length;");   // 진짜 개수만큼 더해주고~
+            // 여기서부터 작업 해야됨, BitConverter로 전부 돌려놓자.
         }
         public override void Serialize_CSharp(StreamWriter Generator, String Parent="")
         {
-            Generator.WriteLine(this.space(1) + "foreach(byte " + Attributes["name"] + "i in BitConverter.GetBytes(" + Parent + Attributes["name"] + ".Length).Reverse() )");
+            Generator.WriteLine(this.space(1) + "foreach(byte " + Attributes["name"] + "i" + Depth + " in BitConverter.GetBytes(Encoding.Default.GetBytes(" + Parent + Attributes["name"] + ").Length) )");
             Generator.WriteLine(this.space(1) + "{");
-            Generator.WriteLine(this.space(2) + "stream[index++] = " + Attributes["name"] + "i;");
+            Generator.WriteLine(this.space(2) + "stream[index++] = " + Attributes["name"] + "i" + Depth + ";");
             Generator.WriteLine(this.space(1) + "}");
             // 개수 바이트로 먼저 쏘고
-            Generator.WriteLine(this.space(1) + "foreach(char " + Attributes["name"] + "i in " + Parent + Attributes["name"] + " )");
+            Generator.WriteLine(this.space(1) + "foreach(byte " + Attributes["name"] + "i" + Depth + " in Encoding.Default.GetBytes(" + Parent + Attributes["name"] + ") )");
             Generator.WriteLine(this.space(1) + "{");
-            Generator.WriteLine(this.space(2) + "foreach(byte " + Attributes["name"] + "j in BitConverter.GetBytes(" + Attributes["name"] + "i) )");
-            Generator.WriteLine(this.space(2) + "{");
-            Generator.WriteLine(this.space(3) + "stream[index++] = " + Attributes["name"] + "j;");
-            Generator.WriteLine(this.space(2) + "}");
+            Generator.WriteLine(this.space(2) + "stream[index++] = " + Attributes["name"] + "i" + Depth + ";");
             Generator.WriteLine(this.space(1) + "}");
             // 실제 바이트 정보들 하나하나 옮기고
+        }
+        public override void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type = "")
+        {
+            Generator.WriteLine(this.space(1) + "Int32 " + Attributes["name"] + "Length" + Depth + " = BitConverter.ToInt32(stream, index);");
+            Generator.WriteLine(this.space(1) + "index += sizeof(Int32);");
+
+            Generator.WriteLine(this.space(1) + Parent + Attributes["name"] + " = Encoding.Default.GetString(stream, index, " + Attributes["name"] + "Length" + Depth + ");");
+            Generator.WriteLine(this.space(1) + "index += " + Attributes["name"] + "Length" + Depth + ";");
         }
     }
 }

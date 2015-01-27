@@ -8,11 +8,12 @@ using System.IO;
 
 namespace PDL.Factory.Language
 {
-    public abstract class CSharp
+    interface CSharp
     {
-        abstract public bool exec_CSharp(StreamWriter Generator, StreamWriter Log);
-        abstract public void Constructor_CSharp(StreamWriter Generator);
-        abstract public void GetStreamLength_CSharp(StreamWriter Generator, String Parent="");
-        abstract public void Serialize_CSharp(StreamWriter Generator, String Parent="");
+        bool exec_CSharp(StreamWriter Generator, StreamWriter Log);
+        void Constructor_CSharp(StreamWriter Generator);
+        void GetStreamLength_CSharp(StreamWriter Generator, String Parent="");
+        void Serialize_CSharp(StreamWriter Generator, String Parent = "");
+        void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type="");
     }
 }
