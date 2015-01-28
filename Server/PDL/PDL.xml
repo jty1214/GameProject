@@ -1,0 +1,55 @@
+<PDL Version="3">
+	<Packet name="REQUEST_ENTER_CHANNEL" from="Client">
+		<Int name="world"/>
+		<Int name="channel"/>
+	</Packet>
+
+	<Packet name="RESPONSE_ENTER_CHANNEL" from="Server">
+		<Bool name="valid"/>
+		<Long name="enterChannelTime"/>
+	</Packet>
+
+	<Packet name="REQUEST_FRIEND_LIST" from="Client">
+	</Packet>
+
+	<Packet name="RESPONSE_FRIEND_LIST" from="Server">
+		<List class="FRIEND_LIST" name="friendList">
+			<String name="userName"/>
+			<Long name="userServerId"/>
+			<Int name="userGrade"/>
+			<Int name="userSubGrade"/>
+		</List>
+	</Packet>
+	
+	<Packet name="TEST_TEMP_PACKET" from="Both">
+		<List class="TEST_FIRST_LIST" name="firstList">
+			<String name="stringFirstListVariable"/>
+			<Long name="longFirstListVariable"/>
+			<Int name="intFirstListVariable"/>
+			<Bool name="boolFirstListVariable"/>
+			
+			<List class="TEST_SECOND_LIST" name="secondList">
+				<String name="stringSecondListVariable"/>
+				<Long name="longSecondListVariable"/>
+				<Int name="intSecondListVariable"/>
+				<Bool name="boolSecondListVariable"/>
+				
+				<List class="TEST_THIRD_LIST" name="thirdList">
+					<String name="stringThirdListVariable"/>
+					<Long name="longThirdListVariable"/>
+					<Int name="intThirdListVariable"/>
+					<Bool name="boolThirdListVariable"/>		
+				</List>
+				
+				<String name="endofSecondVariable" />
+			</List>
+			
+			<List class="TEST_SPECIAL_LIST" name="specialList">
+				<String name="stringSpecialListVariable"/>
+				<Long name="longSpecialListVariable"/>
+				<Int name="intSpecialListVariable"/>
+				<Bool name="boolSpecialListVariable"/>		
+			</List>
+		</List>
+	</Packet>
+</PDL>
