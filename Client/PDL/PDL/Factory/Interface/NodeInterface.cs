@@ -34,5 +34,11 @@ namespace PDL.Factory.Interface
             Attributes.Add(attr.Key, attr.Value);
         }
         abstract public String GetName();
+
+        public abstract bool exec_CSharp(StreamWriter Generator, StreamWriter Log);
+        public abstract void Constructor_CSharp(StreamWriter Generator);
+        public abstract void GetStreamLength_CSharp(StreamWriter Generator, String Parent = "");
+        public abstract void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type = "");
+        public abstract void Serialize_CSharp(StreamWriter Generator, String Parent = "");
     }
 }

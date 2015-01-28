@@ -20,4 +20,36 @@
 			<Int name="userSubGrade"/>
 		</List>
 	</Packet>
+	
+	<Packet name="TEST_TEMP_PACKET" from="Both">
+		<List class="TEST_FIRST_LIST" name="firstList">
+			<String name="stringFirstListVariable"/>
+			<Long name="longFirstListVariable"/>
+			<Int name="intFirstListVariable"/>
+			<Bool name="boolFirstListVariable"/>
+			
+			<List class="TEST_SECOND_LIST" name="secondList">
+				<String name="stringSecondListVariable"/>
+				<Long name="longSecondListVariable"/>
+				<Int name="intSecondListVariable"/>
+				<Bool name="boolSecondListVariable"/>
+				
+				<List class="TEST_THIRD_LIST" name="thirdList">
+					<String name="stringThirdListVariable"/>
+					<Long name="longThirdListVariable"/>
+					<Int name="intThirdListVariable"/>
+					<Bool name="boolThirdListVariable"/>		
+				</List>
+				
+				<String name="endofSecondVariable" />
+			</List>
+			
+			<List class="TEST_SPECIAL_LIST" name="specialList">
+				<String name="stringSpecialListVariable"/>
+				<Long name="longSpecialListVariable"/>
+				<Int name="intSpecialListVariable"/>
+				<Bool name="boolSpecialListVariable"/>		
+			</List>
+		</List>
+	</Packet>
 </PDL>

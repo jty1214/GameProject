@@ -60,5 +60,9 @@ namespace PDL.Factory.NodeType
         {
             //놀자!!
         }
+        public override void Parsing_CSharp(StreamWriter Generator, String Parent, String Type = "")
+        {
+            //너무 놀아서 지치겠다...
+        }
     }
 }
