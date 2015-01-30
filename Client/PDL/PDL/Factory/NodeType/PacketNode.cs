@@ -24,15 +24,15 @@ namespace PDL.Factory.NodeType
             {
                 if (Attributes["from"].ToLower() == "client")
                 {
-                    Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_WRITE");
+                    Generator.WriteLine(this.space() + "public class " + Attributes["class"] + "_WRITE");
                 }
                 else if (Attributes["from"].ToLower() == "server")
                 {
-                    Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_READ");
+                    Generator.WriteLine(this.space() + "public class " + Attributes["class"] + "_READ");
                 }
                 else if (Attributes["from"].ToLower() == "both")
                 {
-                    Generator.WriteLine(this.space() + "public class " + Attributes["name"] + "_BOTH");
+                    Generator.WriteLine(this.space() + "public class " + Attributes["class"] + "_BOTH");
                 }
                 else
                 {
@@ -50,15 +50,15 @@ namespace PDL.Factory.NodeType
 
                 if (Attributes["from"].ToLower() == "client")
                 {
-                    Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_WRITE()");
+                    Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + "_WRITE()");
                 }
                 else if (Attributes["from"].ToLower() == "server")
                 {
-                    Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_READ()");
+                    Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + "_READ()");
                 }
                 else if (Attributes["from"].ToLower() == "both")
                 {
-                    Generator.WriteLine(this.space(1) + "public " + Attributes["name"] + "_BOTH()");
+                    Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + "_BOTH()");
                 }
                 else
                 {
