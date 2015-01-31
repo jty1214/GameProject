@@ -72,10 +72,8 @@ namespace PDL.Factory.NodeType
         }
         public override void Serialize_CSharp(StreamWriter Generator, String Parent="")
         {
-            Generator.WriteLine(this.space(1) + "foreach(byte " + Attributes["name"] + "i" + Depth + " in BitConverter.GetBytes(" + Parent + Attributes["name"] + ".Count) )");
-            Generator.WriteLine(this.space(1) + "{");
-            Generator.WriteLine(this.space(2) + "stream[index++] = " + Attributes["name"] + "i" + Depth + ";");
-            Generator.WriteLine(this.space(1) + "}");
+            Generator.WriteLine(this.space(1) + "BitConverter.GetBytes(" + Parent + Attributes["name"] + ".Count).CopyTo(stream, index);");
+            Generator.WriteLine(this.space(1) + "index += sizeof(Int32);");
 
             Generator.WriteLine(this.space(1)
                 + "for(int " + Attributes["name"] + "i" + Depth + "=0;"
