@@ -19,7 +19,7 @@ namespace PDL.Factory.NodeType
         {
             Generator.WriteLine(this.space(1) + Attributes["name"] + "= new Int32();");
         }
-        public override bool exec_CSharp(StreamWriter Generator, StreamWriter Log, String EncodingStyle)
+        public override bool exec_CSharp(StreamWriter Generator, String EncodingStyle)
         {
             try
             {
@@ -28,8 +28,7 @@ namespace PDL.Factory.NodeType
             }
             catch (KeyNotFoundException e)
             {
-                Log.WriteLine(e);
-                Log.WriteTime();
+                Log.Write(e);
                 return false;
             }
         }

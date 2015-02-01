@@ -29,76 +29,58 @@ namespace PDL
             String ProgramLanguage = "C#";
             if (args.Length >= 4) ProgramLanguage = args[3];
 
-            String InputEncodingStyle = "EUC-FR";
+            String InputEncodingStyle = "EUC-KR";
             if (args.Length >= 5) InputEncodingStyle = args[4];
-            
-            FileStream ErrorLog;
-            try
-            {
-                ErrorLog = new FileStream(LogFilePath + "\\" + TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now).ToShortDateString() + ".log", FileMode.Append, FileAccess.Write);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return;
-            }
-            StreamWriter Log = new StreamWriter(ErrorLog, Encoding.UTF8);
 
+            Log.Initialize(LogFilePath);
             String PDLPath = DirectoryPath + "\\" + PDLFileName;
             XmlTextReader Reader = new XmlTextReader(PDLPath);
 
-            Log.WriteLine("========================");
-            Log.Write("Log Trace Start : ");
-            Log.WriteTime();
-            Log.WriteLine("========================");
-
+            
             String EncodingStyle = EncodingHelper.GetEncodingType(InputEncodingStyle);
             if (EncodingStyle == null)
             {
-                Log.WriteLine(InputEncodingStyle + " check valid");
+                Log.Write(InputEncodingStyle + " check valid");
                 String[] sList = EncodingHelper.GetSupportEncodingList();
 
-                Log.WriteLine("Support Encoding Style ----");
+                String SupportEncodingStyle = "";
+                SupportEncodingStyle += "Support Encoding Style ----\n";
+                Log.Write("Support Encoding Style ----");
                 
                 for (int i = 0; i < sList.Length;i++)
                 {
-                    Log.WriteLine(sList[i]);
+                    SupportEncodingStyle += sList[i] + "\n";
                 }
-                Log.WriteLine("--------------------------");
-                Log.WriteTime();
+                SupportEncodingStyle+= "--------------------------\n";
+                Log.Write(SupportEncodingStyle);
                 Log.Close();
                 return;
             }
 
             Log.Write(PDLPath+" Read OK");
-            Log.WriteTime();
 
             String Parser = "";
             // 파싱에 실패한 경우
-            if ( XMLReadHelper.XMLParsing(ref Parser, Reader, Log) == false)
+            if ( XMLReadHelper.XMLParsing(ref Parser, Reader) == false)
             {
                 Log.Write(PDLPath + " Parsing Error");
-                Log.WriteTime();
                 Log.Close();
 
                 return;
             }
 
             Log.Write(PDLPath + " Parsing OK");
-            Log.WriteTime();
 
-            NodeInterface RootNode = Parser.GetDataCenter(Log);
+            NodeInterface RootNode = Parser.GetDataCenter();
 
             if( RootNode == null )
             {
                 Log.Write("Fail to make DataCenter");
-                Log.WriteTime();
                 Log.Close();
                 return;
             }
 
             Log.Write("Making DataCenter is OK");
-            Log.WriteTime();
 
             String MakeFileName;
             switch(ProgramLanguage)
@@ -119,16 +101,14 @@ namespace PDL
 
                         StreamWriter Generator = new StreamWriter(GeneratedFile, Encoding.UTF8);
 
-                        if (RootNode.exec_CSharp(Generator, Log, EncodingStyle) == true)
+                        if (RootNode.exec_CSharp(Generator, EncodingStyle) == true)
                         {
                             Generator.Close();
                             Log.Write("Making \"" + MakeFileName + "\" is OK");
-                            Log.WriteTime();
                         }
                         else
                         {
                             Log.Write("Fail to Make \"" + MakeFileName + "\"");
-                            Log.WriteTime();
                             Log.Close();
                             return;
                         }
@@ -137,15 +117,11 @@ namespace PDL
                 default :
                     {
                         Log.Write("Invalid Program Language : " + ProgramLanguage);
-                        Log.WriteTime();
                         Log.Close();
                         return;
                     }
             }
 
-            Log.WriteLine("========================");
-            Log.Write("Log Trace End : ");
-            Log.WriteTime();
             Log.Close();
         }
     }

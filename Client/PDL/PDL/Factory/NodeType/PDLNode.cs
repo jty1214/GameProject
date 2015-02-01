@@ -14,7 +14,7 @@ namespace PDL.Factory.NodeType
     class PDLNode : NodeInterface
     {
         public override String GetName() { return "PDL"; }
-        public override bool exec_CSharp(StreamWriter Generator, StreamWriter Log, String EncodingStyle)
+        public override bool exec_CSharp(StreamWriter Generator, String EncodingStyle)
         {
             try
             {
@@ -30,11 +30,15 @@ namespace PDL.Factory.NodeType
 
                 for(int i=0;i<ChildNodeList.Count;i++)
                 {
-                    if( ChildNodeList[i].exec_CSharp(Generator, Log, EncodingStyle) == false )
+                    if( ChildNodeList[i].exec_CSharp(Generator, EncodingStyle) == false )
                     {
+                        Log.Write(ChildNodeList[i].Attributes["class"] + " make Failed");
                         return false;
                     }
+                    Log.Write(ChildNodeList[i].Attributes["class"] + " make Success");
+                        
                     Generator.WriteLine("");
+
                 }
 
                 Generator.WriteLine("}");
@@ -43,8 +47,7 @@ namespace PDL.Factory.NodeType
             }
             catch (KeyNotFoundException e)
             {
-                Log.WriteLine(e);
-                Log.WriteTime();
+                Log.Write(e);
                 return false;
             }
         }

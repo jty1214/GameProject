@@ -12,7 +12,7 @@ namespace PDL.Helper
 {
     public static class XMLReadHelper
     {
-        public static bool XMLParsing(ref String Parser, XmlTextReader Reader, StreamWriter Log)
+        public static bool XMLParsing(ref String Parser, XmlTextReader Reader)
         {
             try
             {
@@ -38,30 +38,25 @@ namespace PDL.Helper
             }
             catch (FileNotFoundException e)
             {
-                Log.WriteLine(e);
+                Log.Write(e);
                 return false;
             }
             catch (DirectoryNotFoundException e)
             {
-                Log.WriteLine(e);
+                Log.Write(e);
                 return false;
             }
             catch (InvalidOperationException e)
             {
-                Log.WriteLine(e);
+                Log.Write(e);
                 return false;
             }
             catch (UriFormatException e)
             {
-                Log.WriteLine(e);
+                Log.Write(e);
                 return false;
             }
             return true;
-        }
-
-        public static void WriteTime(this StreamWriter Log)
-        {
-            Log.WriteLine("(" + TimeZone.CurrentTimeZone.ToLocalTime(DateTime.Now).ToString() + ")");
         }
     }
 }

@@ -15,14 +15,13 @@ namespace PDL.Helper
 {
     public static class BuildDataCenter
     {
-        public static NodeInterface GetDataCenter(this String Parser, StreamWriter Log)
+        public static NodeInterface GetDataCenter(this String Parser)
         {
             // 유효한 노드들을 미리 등록해놓는다.
             NodeHelper.RegistNodeList();
 
             String[] ElementList = Parser.Split(';');
             Log.Write("Split Elements OK");
-            Log.WriteTime();
 
             Stack<NodeInterface> NodeStack = new Stack<NodeInterface>();
             NodeInterface RootNode = null;
@@ -48,7 +47,6 @@ namespace PDL.Helper
                             if( Node == null )
                             {
                                 Log.Write("NodeName ["+NodeName+"] need Check");
-                                Log.WriteTime();
                                 return null;
                             }
                             Node.Depth = NodeDepth;
@@ -70,7 +68,6 @@ namespace PDL.Helper
                                     if( NodeStack.Count == 0 )
                                     {
                                         Log.Write(Node + "need Check");
-                                        Log.WriteTime();
                                         return null;
                                     }
 
@@ -79,7 +76,6 @@ namespace PDL.Helper
                                 else
                                 {
                                     Log.Write(NodeName+" is not childInterface");
-                                    Log.WriteTime();
                                     return null;
                                 }
                             }
@@ -100,7 +96,6 @@ namespace PDL.Helper
                             if( NodeStack.Count == 0 )
                             {
                                 Log.Write("Error : Empty Stack");
-                                Log.WriteTime();
                                 return null;
                             }
                             String NodeName = NodeInfo[1].ToLower();
@@ -110,8 +105,6 @@ namespace PDL.Helper
                             if( eType == null)
                             {
                                 Log.Write(NodeName + "need to write into dictionary");
-                                Log.WriteTime();
-
                                 return null;
                             }
 
@@ -122,7 +115,6 @@ namespace PDL.Helper
                             if (NodeStack.Count == 0)
                             {
                                 Log.Write(NodeName + "need Check");
-                                Log.WriteTime();
                                 return null;
                             }
 
@@ -133,7 +125,6 @@ namespace PDL.Helper
                             else
                             {
                                 Log.Write("Error : Node pair is not Matched");
-                                Log.WriteTime();
                                 return null;
                             }
                         }
@@ -141,7 +132,6 @@ namespace PDL.Helper
                     default :
                         {
                             Log.Write(NodeType + " is What?");
-                            Log.WriteTime();
                             return null;
                         }
                 }
