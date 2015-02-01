@@ -10,10 +10,10 @@ namespace PDL.Factory.Language
 {
     interface CSharp
     {
-        bool exec_CSharp(StreamWriter Generator, StreamWriter Log);
-        void Constructor_CSharp(StreamWriter Generator);
-        void GetStreamLength_CSharp(StreamWriter Generator, String Parent="");
-        void Serialize_CSharp(StreamWriter Generator, String Parent = "");
-        void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type="");
+        bool exec_CSharp(StreamWriter Generator, StreamWriter Log, String EncodingStyle);
+        void Constructor_CSharp(StreamWriter Generator, String EncodingStyle);
+        void GetStreamLength_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "");
+        void Serialize_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "");
+        void Parsing_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "", String Type = "");
     }
 }

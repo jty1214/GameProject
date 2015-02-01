@@ -14,11 +14,11 @@ namespace PDL.Factory.NodeType
     class PacketNode : ChildInterface
     {
         public override String GetName() { return "Packet"; }
-        public override void Constructor_CSharp(StreamWriter Generator)
+        public override void Constructor_CSharp(StreamWriter Generator, String EncodingStyle)
         {
             //놀아 놀아
         }
-        public override bool exec_CSharp(StreamWriter Generator, StreamWriter Log)
+        public override bool exec_CSharp(StreamWriter Generator, StreamWriter Log, String EncodingStyle)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace PDL.Factory.NodeType
                 
                 for (int i = 0; i < ChildNodeList.Count; i++)
                 {
-                    if (ChildNodeList[i].exec_CSharp(Generator, Log) == false)
+                    if (ChildNodeList[i].exec_CSharp(Generator, Log, EncodingStyle) == false)
                     {
                         return false;
                     }
@@ -69,25 +69,25 @@ namespace PDL.Factory.NodeType
 
                 for (int i = 0; i < ChildNodeList.Count; i++)
                 {
-                    ChildNodeList[i].Constructor_CSharp(Generator);
+                    ChildNodeList[i].Constructor_CSharp(Generator, EncodingStyle);
                 }
 
                 Generator.WriteLine(this.space(1) + "}");
 
                 if (Attributes["from"].ToLower() == "both") // "_BOTH"
                 {
-                    this.GetStreamLength_CSharp(Generator);
-                    this.Serialize_CSharp(Generator);
-                    this.Parsing_CSharp(Generator);
+                    this.GetStreamLength_CSharp(Generator, EncodingStyle);
+                    this.Serialize_CSharp(Generator, EncodingStyle);
+                    this.Parsing_CSharp(Generator, EncodingStyle);
                 }
                 else if (Attributes["from"].ToLower() == "client") // "_WRITE"
                 {
-                    this.GetStreamLength_CSharp(Generator);
-                    this.Serialize_CSharp(Generator);
+                    this.GetStreamLength_CSharp(Generator, EncodingStyle);
+                    this.Serialize_CSharp(Generator, EncodingStyle);
                 }
                 else if (Attributes["from"].ToLower() == "server") // "_READ"
                 {
-                    this.Parsing_CSharp(Generator);
+                    this.Parsing_CSharp(Generator, EncodingStyle);
                 }
                 Generator.WriteLine(this.space() + "}");
 
@@ -100,7 +100,7 @@ namespace PDL.Factory.NodeType
                 return false;
             }
         }
-        public override void GetStreamLength_CSharp(StreamWriter Generator, String Parent="")
+        public override void GetStreamLength_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "")
         {
             Generator.WriteLine(this.space(1) + "public Int32 GetStreamLength()");
             Generator.WriteLine(this.space(1) + "{");
@@ -108,13 +108,13 @@ namespace PDL.Factory.NodeType
 
             for (int i = 0; i < ChildNodeList.Count; i++)
             {
-                ChildNodeList[i].GetStreamLength_CSharp(Generator);
+                ChildNodeList[i].GetStreamLength_CSharp(Generator, EncodingStyle);
             }
 
             Generator.WriteLine(this.space(2) + "return size;");
             Generator.WriteLine(this.space(1) + "}");
         }
-        public override void Serialize_CSharp(StreamWriter Generator, String Parent="")
+        public override void Serialize_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "")
         {
             Generator.WriteLine(this.space(1) + "public void Serialize(byte[] stream)");
             Generator.WriteLine(this.space(1) + "{");
@@ -125,12 +125,12 @@ namespace PDL.Factory.NodeType
 
             for (int i = 0; i < ChildNodeList.Count; i++)
             {
-                ChildNodeList[i].Serialize_CSharp(Generator);
+                ChildNodeList[i].Serialize_CSharp(Generator, EncodingStyle);
             }
 
             Generator.WriteLine(this.space(1) + "}");
         }
-        public override void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type = "")
+        public override void Parsing_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "", String Type = "")
         {
             Generator.WriteLine(this.space(1) + "public void Parsing(byte[] stream)");
             Generator.WriteLine(this.space(1) + "{");
@@ -141,7 +141,7 @@ namespace PDL.Factory.NodeType
 
             for (int i = 0; i < ChildNodeList.Count; i++)
             {
-                ChildNodeList[i].Parsing_CSharp(Generator);
+                ChildNodeList[i].Parsing_CSharp(Generator, EncodingStyle);
             }
 
             Generator.WriteLine(this.space(1) + "}");

@@ -35,10 +35,10 @@ namespace PDL.Factory.Interface
         }
         abstract public String GetName();
 
-        public abstract bool exec_CSharp(StreamWriter Generator, StreamWriter Log);
-        public abstract void Constructor_CSharp(StreamWriter Generator);
-        public abstract void GetStreamLength_CSharp(StreamWriter Generator, String Parent = "");
-        public abstract void Parsing_CSharp(StreamWriter Generator, String Parent = "", String Type = "");
-        public abstract void Serialize_CSharp(StreamWriter Generator, String Parent = "");
+        public abstract bool exec_CSharp(StreamWriter Generator, StreamWriter Log, String EncodingStyle);
+        public abstract void Constructor_CSharp(StreamWriter Generator, String EncodingStyle);
+        public abstract void GetStreamLength_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "");
+        public abstract void Parsing_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "", String Type = "");
+        public abstract void Serialize_CSharp(StreamWriter Generator, String EncodingStyle, String Parent = "");
     }
 }

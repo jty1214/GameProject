@@ -29,6 +29,9 @@ namespace PDL
             String ProgramLanguage = "C#";
             if (args.Length >= 4) ProgramLanguage = args[3];
 
+            String InputEncodingStyle = "EUC-FR";
+            if (args.Length >= 5) InputEncodingStyle = args[4];
+            
             FileStream ErrorLog;
             try
             {
@@ -48,6 +51,24 @@ namespace PDL
             Log.Write("Log Trace Start : ");
             Log.WriteTime();
             Log.WriteLine("========================");
+
+            String EncodingStyle = EncodingHelper.GetEncodingType(InputEncodingStyle);
+            if (EncodingStyle == null)
+            {
+                Log.WriteLine(InputEncodingStyle + " check valid");
+                String[] sList = EncodingHelper.GetSupportEncodingList();
+
+                Log.WriteLine("Support Encoding Style ----");
+                
+                for (int i = 0; i < sList.Length;i++)
+                {
+                    Log.WriteLine(sList[i]);
+                }
+                Log.WriteLine("--------------------------");
+                Log.WriteTime();
+                Log.Close();
+                return;
+            }
 
             Log.Write(PDLPath+" Read OK");
             Log.WriteTime();
@@ -98,7 +119,7 @@ namespace PDL
 
                         StreamWriter Generator = new StreamWriter(GeneratedFile, Encoding.UTF8);
 
-                        if( RootNode.exec_CSharp(Generator, Log) == true )
+                        if (RootNode.exec_CSharp(Generator, Log, EncodingStyle) == true)
                         {
                             Generator.Close();
                             Log.Write("Making \"" + MakeFileName + "\" is OK");

@@ -55,6 +55,7 @@
     <Compile Include="Factory\NodeType\ListNode.cs" />
     <Compile Include="Factory\NodeType\PacketNode.cs" />
     <Compile Include="Factory\NodeType\PDLNode.cs" />
+    <Compile Include="Helper\EncodingHelper.cs" />
     <Compile Include="Helper\XMLReadHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

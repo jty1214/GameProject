@@ -52,4 +52,8 @@
 			</List>
 		</List>
 	</Packet>
+
+  <Packet class="TEST_TT_PACKET" from="Both">
+    <String name="keyword"/>
+  </Packet >
 </PDL>
