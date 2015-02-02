@@ -1,18 +1,18 @@
 <PDL Version="3">
-	<Packet name="REQUEST_ENTER_CHANNEL" from="Client">
+	<Packet class="REQUEST_ENTER_CHANNEL" from="Client">
 		<Int name="world"/>
 		<Int name="channel"/>
 	</Packet>
 
-	<Packet name="RESPONSE_ENTER_CHANNEL" from="Server">
+	<Packet class="RESPONSE_ENTER_CHANNEL" from="Server">
 		<Bool name="valid"/>
 		<Long name="enterChannelTime"/>
 	</Packet>
 
-	<Packet name="REQUEST_FRIEND_LIST" from="Client">
+	<Packet class="REQUEST_FRIEND_LIST" from="Client">
 	</Packet>
 
-	<Packet name="RESPONSE_FRIEND_LIST" from="Server">
+	<Packet class="RESPONSE_FRIEND_LIST" from="Server">
 		<List class="FRIEND_LIST" name="friendList">
 			<String name="userName"/>
 			<Long name="userServerId"/>
@@ -21,7 +21,7 @@
 		</List>
 	</Packet>
 	
-	<Packet name="TEST_TEMP_PACKET" from="Both">
+	<Packet class="TEST_TEMP_PACKET" from="Both">
 		<List class="TEST_FIRST_LIST" name="firstList">
 			<String name="stringFirstListVariable"/>
 			<Long name="longFirstListVariable"/>
@@ -52,4 +52,8 @@
 			</List>
 		</List>
 	</Packet>
+
+  <Packet class="TEST_TT_PACKET" from="Both">
+    <String name="keyword"/>
+  </Packet >
 </PDL>
