@@ -32,6 +32,9 @@ namespace PDL
             String InputEncodingStyle = "EUC-KR";
             if (args.Length >= 5) InputEncodingStyle = args[4];
 
+            String User = "Client";
+            if (args.Length >= 5) User = args[5];
+
             Log.Initialize(LogFilePath);
             String PDLPath = DirectoryPath + "\\" + PDLFileName;
             XmlTextReader Reader = new XmlTextReader(PDLPath);
@@ -53,6 +56,14 @@ namespace PDL
                 }
                 SupportEncodingStyle+= "--------------------------\n";
                 Log.Write(SupportEncodingStyle);
+                Log.Close();
+                return;
+            }
+
+            UserPosition.SetUser(User);
+            if( UserPosition.CheckValid() == false)
+            {
+                Log.Write(UserPosition.GetUser() + " Check valid");
                 Log.Close();
                 return;
             }

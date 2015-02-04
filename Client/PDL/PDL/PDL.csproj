@@ -57,6 +57,7 @@
     <Compile Include="Factory\NodeType\PDLNode.cs" />
     <Compile Include="Helper\EncodingHelper.cs" />
     <Compile Include="Helper\Log.cs" />
+    <Compile Include="Helper\UserPosition.cs" />
     <Compile Include="Helper\XMLReadHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

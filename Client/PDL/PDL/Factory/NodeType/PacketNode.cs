@@ -22,22 +22,48 @@ namespace PDL.Factory.NodeType
         {
             try
             {
-                if (Attributes["from"].ToLower() == "client")
+                String PostType;
+                if (Attributes["from"].ToLower() == "both")
                 {
-                    Generator.WriteLine(this.space() + "public class " + Attributes["class"] + "_WRITE");
+                    PostType = "_BOTH";
                 }
-                else if (Attributes["from"].ToLower() == "server")
+                else if (Attributes["from"].ToLower() == "client")
                 {
-                    Generator.WriteLine(this.space() + "public class " + Attributes["class"] + "_READ");
+                    if( UserPosition.GetUser() == "client" )
+                    {
+                        PostType = "_WRITE";
+                    }
+                    else if( UserPosition.GetUser() == "server" )
+                    {
+                        PostType = "_READ";
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else if (Attributes["from"].ToLower() == "both")
+                else if(Attributes["from"].ToLower() == "server")
                 {
-                    Generator.WriteLine(this.space() + "public class " + Attributes["class"] + "_BOTH");
+                    if( UserPosition.GetUser() == "client" )
+                    {
+                        PostType = "_READ";
+                    }
+                    else if( UserPosition.GetUser() == "server" )
+                    {
+                        PostType = "_WRITE";
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
                     return false;
                 }
+
+                Generator.WriteLine(this.space() + "public class " + Attributes["class"] + PostType);
+
                 Generator.WriteLine(this.space() + "{");
                 
                 for (int i = 0; i < ChildNodeList.Count; i++)
@@ -48,22 +74,7 @@ namespace PDL.Factory.NodeType
                     }
                 }
 
-                if (Attributes["from"].ToLower() == "client")
-                {
-                    Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + "_WRITE()");
-                }
-                else if (Attributes["from"].ToLower() == "server")
-                {
-                    Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + "_READ()");
-                }
-                else if (Attributes["from"].ToLower() == "both")
-                {
-                    Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + "_BOTH()");
-                }
-                else
-                {
-                    return false;
-                }
+                Generator.WriteLine(this.space(1) + "public " + Attributes["class"] + PostType + "()");
                 
                 Generator.WriteLine(this.space(1) + "{");
 
@@ -80,15 +91,20 @@ namespace PDL.Factory.NodeType
                     this.Serialize_CSharp(Generator, EncodingStyle);
                     this.Parsing_CSharp(Generator, EncodingStyle);
                 }
-                else if (Attributes["from"].ToLower() == "client") // "_WRITE"
+                else if (PostType == "_WRITE")
                 {
                     this.GetStreamLength_CSharp(Generator, EncodingStyle);
                     this.Serialize_CSharp(Generator, EncodingStyle);
                 }
-                else if (Attributes["from"].ToLower() == "server") // "_READ"
+                else if (PostType == "_READ")
                 {
                     this.Parsing_CSharp(Generator, EncodingStyle);
                 }
+                else
+                {
+                    return false;
+                }
+
                 Generator.WriteLine(this.space() + "}");
 
                 return true;

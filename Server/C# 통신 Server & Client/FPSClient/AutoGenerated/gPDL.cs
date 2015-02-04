@@ -99,7 +99,7 @@ namespace PDL
         FRIEND_LIST friendListit2 = new FRIEND_LIST();
         Int32 userNameLength3 = BitConverter.ToInt32(stream, index);
         index += sizeof(Int32);
-        friendListit2.userName = Encoding.GetEncoding("utf-16").GetString(stream, index, userNameLength3);
+        friendListit2.userName = Encoding.GetEncoding("euc-kr").GetString(stream, index, userNameLength3);
         index += userNameLength3;
         friendListit2.userServerId = BitConverter.ToInt64(stream, index);
         index += sizeof(Int64);
@@ -194,7 +194,7 @@ namespace PDL
       for(int firstListi2=0;firstListi2 < firstList.Count;firstListi2++)
       {
         size += sizeof(Int32);
-        size += Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].stringFirstListVariable).Length;
+        size += Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].stringFirstListVariable).Length;
         size += sizeof(Int64);
         size += sizeof(Int32);
         size += sizeof(Boolean);
@@ -202,7 +202,7 @@ namespace PDL
         for(int secondListi3=0;secondListi3 < firstList[firstListi2].secondList.Count;secondListi3++)
         {
           size += sizeof(Int32);
-          size += Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].secondList[secondListi3].stringSecondListVariable).Length;
+          size += Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].secondList[secondListi3].stringSecondListVariable).Length;
           size += sizeof(Int64);
           size += sizeof(Int32);
           size += sizeof(Boolean);
@@ -210,19 +210,19 @@ namespace PDL
           for(int thirdListi4=0;thirdListi4 < firstList[firstListi2].secondList[secondListi3].thirdList.Count;thirdListi4++)
           {
             size += sizeof(Int32);
-            size += Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].secondList[secondListi3].thirdList[thirdListi4].stringThirdListVariable).Length;
+            size += Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].secondList[secondListi3].thirdList[thirdListi4].stringThirdListVariable).Length;
             size += sizeof(Int64);
             size += sizeof(Int32);
             size += sizeof(Boolean);
           }
           size += sizeof(Int32);
-          size += Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].secondList[secondListi3].endofSecondVariable).Length;
+          size += Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].secondList[secondListi3].endofSecondVariable).Length;
         }
         size += sizeof(Int32);
         for(int specialListi3=0;specialListi3 < firstList[firstListi2].specialList.Count;specialListi3++)
         {
           size += sizeof(Int32);
-          size += Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].specialList[specialListi3].stringSpecialListVariable).Length;
+          size += Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].specialList[specialListi3].stringSpecialListVariable).Length;
           size += sizeof(Int64);
           size += sizeof(Int32);
           size += sizeof(Boolean);
@@ -237,7 +237,7 @@ namespace PDL
       index += sizeof(Int32);
       for(int firstListi2=0;firstListi2 < firstList.Count;firstListi2++)
       {
-        Byte[] stringFirstListVariablei3 = Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].stringFirstListVariable);
+        Byte[] stringFirstListVariablei3 = Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].stringFirstListVariable);
         BitConverter.GetBytes(stringFirstListVariablei3.Length).CopyTo(stream, index);
         index += sizeof(Int32);
         stringFirstListVariablei3.CopyTo(stream, index);
@@ -252,7 +252,7 @@ namespace PDL
         index += sizeof(Int32);
         for(int secondListi3=0;secondListi3 < firstList[firstListi2].secondList.Count;secondListi3++)
         {
-          Byte[] stringSecondListVariablei4 = Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].secondList[secondListi3].stringSecondListVariable);
+          Byte[] stringSecondListVariablei4 = Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].secondList[secondListi3].stringSecondListVariable);
           BitConverter.GetBytes(stringSecondListVariablei4.Length).CopyTo(stream, index);
           index += sizeof(Int32);
           stringSecondListVariablei4.CopyTo(stream, index);
@@ -267,7 +267,7 @@ namespace PDL
           index += sizeof(Int32);
           for(int thirdListi4=0;thirdListi4 < firstList[firstListi2].secondList[secondListi3].thirdList.Count;thirdListi4++)
           {
-            Byte[] stringThirdListVariablei5 = Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].secondList[secondListi3].thirdList[thirdListi4].stringThirdListVariable);
+            Byte[] stringThirdListVariablei5 = Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].secondList[secondListi3].thirdList[thirdListi4].stringThirdListVariable);
             BitConverter.GetBytes(stringThirdListVariablei5.Length).CopyTo(stream, index);
             index += sizeof(Int32);
             stringThirdListVariablei5.CopyTo(stream, index);
@@ -279,7 +279,7 @@ namespace PDL
             BitConverter.GetBytes(firstList[firstListi2].secondList[secondListi3].thirdList[thirdListi4].boolThirdListVariable).CopyTo(stream, index);
             index += sizeof(Boolean);
           }
-          Byte[] endofSecondVariablei4 = Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].secondList[secondListi3].endofSecondVariable);
+          Byte[] endofSecondVariablei4 = Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].secondList[secondListi3].endofSecondVariable);
           BitConverter.GetBytes(endofSecondVariablei4.Length).CopyTo(stream, index);
           index += sizeof(Int32);
           endofSecondVariablei4.CopyTo(stream, index);
@@ -289,7 +289,7 @@ namespace PDL
         index += sizeof(Int32);
         for(int specialListi3=0;specialListi3 < firstList[firstListi2].specialList.Count;specialListi3++)
         {
-          Byte[] stringSpecialListVariablei4 = Encoding.GetEncoding("utf-16").GetBytes(firstList[firstListi2].specialList[specialListi3].stringSpecialListVariable);
+          Byte[] stringSpecialListVariablei4 = Encoding.GetEncoding("euc-kr").GetBytes(firstList[firstListi2].specialList[specialListi3].stringSpecialListVariable);
           BitConverter.GetBytes(stringSpecialListVariablei4.Length).CopyTo(stream, index);
           index += sizeof(Int32);
           stringSpecialListVariablei4.CopyTo(stream, index);
@@ -313,7 +313,7 @@ namespace PDL
         TEST_FIRST_LIST firstListit2 = new TEST_FIRST_LIST();
         Int32 stringFirstListVariableLength3 = BitConverter.ToInt32(stream, index);
         index += sizeof(Int32);
-        firstListit2.stringFirstListVariable = Encoding.GetEncoding("utf-16").GetString(stream, index, stringFirstListVariableLength3);
+        firstListit2.stringFirstListVariable = Encoding.GetEncoding("euc-kr").GetString(stream, index, stringFirstListVariableLength3);
         index += stringFirstListVariableLength3;
         firstListit2.longFirstListVariable = BitConverter.ToInt64(stream, index);
         index += sizeof(Int64);
@@ -328,7 +328,7 @@ namespace PDL
           TEST_FIRST_LIST.TEST_SECOND_LIST secondListit3 = new TEST_FIRST_LIST.TEST_SECOND_LIST();
           Int32 stringSecondListVariableLength4 = BitConverter.ToInt32(stream, index);
           index += sizeof(Int32);
-          secondListit3.stringSecondListVariable = Encoding.GetEncoding("utf-16").GetString(stream, index, stringSecondListVariableLength4);
+          secondListit3.stringSecondListVariable = Encoding.GetEncoding("euc-kr").GetString(stream, index, stringSecondListVariableLength4);
           index += stringSecondListVariableLength4;
           secondListit3.longSecondListVariable = BitConverter.ToInt64(stream, index);
           index += sizeof(Int64);
@@ -343,7 +343,7 @@ namespace PDL
             TEST_FIRST_LIST.TEST_SECOND_LIST.TEST_THIRD_LIST thirdListit4 = new TEST_FIRST_LIST.TEST_SECOND_LIST.TEST_THIRD_LIST();
             Int32 stringThirdListVariableLength5 = BitConverter.ToInt32(stream, index);
             index += sizeof(Int32);
-            thirdListit4.stringThirdListVariable = Encoding.GetEncoding("utf-16").GetString(stream, index, stringThirdListVariableLength5);
+            thirdListit4.stringThirdListVariable = Encoding.GetEncoding("euc-kr").GetString(stream, index, stringThirdListVariableLength5);
             index += stringThirdListVariableLength5;
             thirdListit4.longThirdListVariable = BitConverter.ToInt64(stream, index);
             index += sizeof(Int64);
@@ -355,7 +355,7 @@ namespace PDL
           }
           Int32 endofSecondVariableLength4 = BitConverter.ToInt32(stream, index);
           index += sizeof(Int32);
-          secondListit3.endofSecondVariable = Encoding.GetEncoding("utf-16").GetString(stream, index, endofSecondVariableLength4);
+          secondListit3.endofSecondVariable = Encoding.GetEncoding("euc-kr").GetString(stream, index, endofSecondVariableLength4);
           index += endofSecondVariableLength4;
           firstListit2.secondList.Add(secondListit3);
         }
@@ -366,7 +366,7 @@ namespace PDL
           TEST_FIRST_LIST.TEST_SPECIAL_LIST specialListit3 = new TEST_FIRST_LIST.TEST_SPECIAL_LIST();
           Int32 stringSpecialListVariableLength4 = BitConverter.ToInt32(stream, index);
           index += sizeof(Int32);
-          specialListit3.stringSpecialListVariable = Encoding.GetEncoding("utf-16").GetString(stream, index, stringSpecialListVariableLength4);
+          specialListit3.stringSpecialListVariable = Encoding.GetEncoding("euc-kr").GetString(stream, index, stringSpecialListVariableLength4);
           index += stringSpecialListVariableLength4;
           specialListit3.longSpecialListVariable = BitConverter.ToInt64(stream, index);
           index += sizeof(Int64);
@@ -392,13 +392,13 @@ namespace PDL
     {
       Int32 size = 0;
       size += sizeof(Int32);
-      size += Encoding.GetEncoding("utf-16").GetBytes(keyword).Length;
+      size += Encoding.GetEncoding("euc-kr").GetBytes(keyword).Length;
       return size;
     }
     public void Serialize(byte[] stream)
     {
       Int32 index = 0;
-      Byte[] keywordi2 = Encoding.GetEncoding("utf-16").GetBytes(keyword);
+      Byte[] keywordi2 = Encoding.GetEncoding("euc-kr").GetBytes(keyword);
       BitConverter.GetBytes(keywordi2.Length).CopyTo(stream, index);
       index += sizeof(Int32);
       keywordi2.CopyTo(stream, index);
@@ -409,7 +409,7 @@ namespace PDL
       Int32 index = 0;
       Int32 keywordLength2 = BitConverter.ToInt32(stream, index);
       index += sizeof(Int32);
-      keyword = Encoding.GetEncoding("utf-16").GetString(stream, index, keywordLength2);
+      keyword = Encoding.GetEncoding("euc-kr").GetString(stream, index, keywordLength2);
       index += keywordLength2;
     }
   }
