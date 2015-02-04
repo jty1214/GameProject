@@ -1,32 +1,30 @@
-#incldue <iostream>
-#incldue <list>
+#include <iostream>
+#include <vector>
 using namespace std;
-#define BYTE unsigned char
-
 namespace PDL
 {
 	class REQUEST_ENTER_CHANNEL_READ {
 	public:
-		int world;
-		int channel;
+		_int32 world;
+		_int32 channel;
 	
-		void Parsing(BYTE* byteStream) {
-			int index = 0, str_len;
-			memcpy(&world, (int *)byteStream + index, sizeof(int));
+		void Parsing(void* byteStream) {
+			_int32 index = 0, str_len;
+			memcpy(&world, (_int32 *)byteStream + index, sizeof(_int32));
 			index += sizeof(world);
-			memcpy(&channel, (int *)byteStream + index, sizeof(int));
+			memcpy(&channel, (_int32 *)byteStream + index, sizeof(_int32));
 			index += sizeof(channel);
 		}
 	};
 	class RESPONSE_ENTER_CHANNEL_WRITE {
 	public:
 		bool valid;
-		long enterChannelTime;
+		_int64 enterChannelTime;
 	
-		int GetStreamLength() {
-			int size=0;
+		_int32 GetStreamLength() {
+			_int32 size=0;
 			size += sizeof(bool);
-			size += sizeof(long);
+			size += sizeof(_int64);
 			return size;
 		}
 
@@ -45,22 +43,22 @@ namespace PDL
 	public:
 		class FRIEND_LIST {
 		public:
-			string userName = "";
-			long userServerId;
-			int userGrade;
-			int userSubGrade;
+			string userName;
+			_int64 userServerId;
+			_int32 userGrade;
+			_int32 userSubGrade;
 		};
 		list<FRIEND_LIST> friendList;
 	
-		int GetStreamLength() {
-			int size=0;
-			size += sizeof(int);
-			for(int friendListi;friendListi<;friendList.size();friendListi++) {
-				size += sizeof(int);
+		_int32 GetStreamLength() {
+			_int32 size=0;
+			size += sizeof(_int32);
+			for(_int32 friendListi;friendListi<;friendList.size();friendListi++) {
+				size += sizeof(_int32);
 				size += sizeof(userName);
-				size += sizeof(long);
-				size += sizeof(int);
-				size += sizeof(int);
+				size += sizeof(_int64);
+				size += sizeof(_int32);
+				size += sizeof(_int32);
 			}
 			return size;
 		}
@@ -69,9 +67,9 @@ namespace PDL
 			char* ptr = (char*)byteStream;
 			memcpy(ptr, (void *)(&friendList.size()), sizeof(friendList.size()));
 			ptr += sizeof(friendList);
-			for(int friendListi=0;friendListi<friendList.size();friendListi++) {
-				memcpy(ptr, (void *)(&sizeof(userName)), sizeof(sizeof(userName)));
-				ptr += sizeof(sizeof(userName));
+			for(_int32 friendListi=0;friendListi<friendList.size();friendListi++) {
+				memcpy(ptr, (void *)(&sizeof(userName)), sizeof(_int32));
+				ptr += sizeof(_int32);
 				memcpy(ptr, (void *)(&userName), sizeof(userName));
 				ptr += sizeof(userName);
 				memcpy(ptr, (void *)(&userServerId), sizeof(userServerId));
@@ -87,70 +85,70 @@ namespace PDL
 	public:
 		class TEST_FIRST_LIST {
 		public:
-			string stringFirstListVariable = "";
-			long longFirstListVariable;
-			int intFirstListVariable;
+			string stringFirstListVariable;
+			_int64 longFirstListVariable;
+			_int32 intFirstListVariable;
 			bool boolFirstListVariable;
 			class TEST_SECOND_LIST {
 			public:
-				string stringSecondListVariable = "";
-				long longSecondListVariable;
-				int intSecondListVariable;
+				string stringSecondListVariable;
+				_int64 longSecondListVariable;
+				_int32 intSecondListVariable;
 				bool boolSecondListVariable;
 				class TEST_THIRD_LIST {
 				public:
-					string stringThirdListVariable = "";
-					long longThirdListVariable;
-					int intThirdListVariable;
+					string stringThirdListVariable;
+					_int64 longThirdListVariable;
+					_int32 intThirdListVariable;
 					bool boolThirdListVariable;
 				};
 				list<TEST_THIRD_LIST> thirdList;
-				string endofSecondVariable = "";
+				string endofSecondVariable;
 			};
 			list<TEST_SECOND_LIST> secondList;
 			class TEST_SPECIAL_LIST {
 			public:
-				string stringSpecialListVariable = "";
-				long longSpecialListVariable;
-				int intSpecialListVariable;
+				string stringSpecialListVariable;
+				_int64 longSpecialListVariable;
+				_int32 intSpecialListVariable;
 				bool boolSpecialListVariable;
 			};
 			list<TEST_SPECIAL_LIST> specialList;
 		};
 		list<TEST_FIRST_LIST> firstList;
 	
-		int GetStreamLength() {
-			int size=0;
-			size += sizeof(int);
-			for(int firstListi;firstListi<;firstList.size();firstListi++) {
-				size += sizeof(int);
+		_int32 GetStreamLength() {
+			_int32 size=0;
+			size += sizeof(_int32);
+			for(_int32 firstListi;firstListi<;firstList.size();firstListi++) {
+				size += sizeof(_int32);
 				size += sizeof(stringFirstListVariable);
-				size += sizeof(long);
-				size += sizeof(int);
+				size += sizeof(_int64);
+				size += sizeof(_int32);
 				size += sizeof(bool);
-				size += sizeof(int);
-				for(int secondListi;secondListi<;secondList.size();secondListi++) {
-					size += sizeof(int);
+				size += sizeof(_int32);
+				for(_int32 secondListi;secondListi<;secondList.size();secondListi++) {
+					size += sizeof(_int32);
 					size += sizeof(stringSecondListVariable);
-					size += sizeof(long);
-					size += sizeof(int);
+					size += sizeof(_int64);
+					size += sizeof(_int32);
 					size += sizeof(bool);
-					size += sizeof(int);
-					for(int thirdListi;thirdListi<;thirdList.size();thirdListi++) {
-						size += sizeof(int);
+					size += sizeof(_int32);
+					for(_int32 thirdListi;thirdListi<;thirdList.size();thirdListi++) {
+						size += sizeof(_int32);
 						size += sizeof(stringThirdListVariable);
-						size += sizeof(long);
-						size += sizeof(int);
+						size += sizeof(_int64);
+						size += sizeof(_int32);
 						size += sizeof(bool);
 					}
-					size += sizeof(int);
+					size += sizeof(_int32);
 					size += sizeof(endofSecondVariable);
-					size += sizeof(int);
-					for(int specialListi;specialListi<;specialList.size();specialListi++) {
-						size += sizeof(int);
+					size += sizeof(_int32);
+					for(_int32 specialListi;specialListi<;specialList.size();specialListi++) {
+						size += sizeof(_int32);
 						size += sizeof(stringSpecialListVariable);
-						size += sizeof(long);
-						size += sizeof(int);
+						size += sizeof(_int64);
+						size += sizeof(_int32);
 						size += sizeof(bool);
 					}
 				}
@@ -162,9 +160,9 @@ namespace PDL
 			char* ptr = (char*)byteStream;
 			memcpy(ptr, (void *)(&firstList.size()), sizeof(firstList.size()));
 			ptr += sizeof(firstList);
-			for(int firstListi=0;firstListi<firstList.size();firstListi++) {
-				memcpy(ptr, (void *)(&sizeof(stringFirstListVariable)), sizeof(sizeof(stringFirstListVariable)));
-				ptr += sizeof(sizeof(stringFirstListVariable));
+			for(_int32 firstListi=0;firstListi<firstList.size();firstListi++) {
+				memcpy(ptr, (void *)(&sizeof(stringFirstListVariable)), sizeof(_int32));
+				ptr += sizeof(_int32);
 				memcpy(ptr, (void *)(&stringFirstListVariable), sizeof(stringFirstListVariable));
 				ptr += sizeof(stringFirstListVariable);
 				memcpy(ptr, (void *)(&longFirstListVariable), sizeof(longFirstListVariable));
@@ -175,9 +173,9 @@ namespace PDL
 				ptr += sizeof(boolFirstListVariable);
 				memcpy(ptr, (void *)(&secondList.size()), sizeof(secondList.size()));
 				ptr += sizeof(secondList);
-				for(int secondListi=0;secondListi<secondList.size();secondListi++) {
-					memcpy(ptr, (void *)(&sizeof(stringSecondListVariable)), sizeof(sizeof(stringSecondListVariable)));
-					ptr += sizeof(sizeof(stringSecondListVariable));
+				for(_int32 secondListi=0;secondListi<secondList.size();secondListi++) {
+					memcpy(ptr, (void *)(&sizeof(stringSecondListVariable)), sizeof(_int32));
+					ptr += sizeof(_int32);
 					memcpy(ptr, (void *)(&stringSecondListVariable), sizeof(stringSecondListVariable));
 					ptr += sizeof(stringSecondListVariable);
 					memcpy(ptr, (void *)(&longSecondListVariable), sizeof(longSecondListVariable));
@@ -188,9 +186,9 @@ namespace PDL
 					ptr += sizeof(boolSecondListVariable);
 					memcpy(ptr, (void *)(&thirdList.size()), sizeof(thirdList.size()));
 					ptr += sizeof(thirdList);
-					for(int thirdListi=0;thirdListi<thirdList.size();thirdListi++) {
-						memcpy(ptr, (void *)(&sizeof(stringThirdListVariable)), sizeof(sizeof(stringThirdListVariable)));
-						ptr += sizeof(sizeof(stringThirdListVariable));
+					for(_int32 thirdListi=0;thirdListi<thirdList.size();thirdListi++) {
+						memcpy(ptr, (void *)(&sizeof(stringThirdListVariable)), sizeof(_int32));
+						ptr += sizeof(_int32);
 						memcpy(ptr, (void *)(&stringThirdListVariable), sizeof(stringThirdListVariable));
 						ptr += sizeof(stringThirdListVariable);
 						memcpy(ptr, (void *)(&longThirdListVariable), sizeof(longThirdListVariable));
@@ -200,16 +198,16 @@ namespace PDL
 						memcpy(ptr, (void *)(&boolThirdListVariable), sizeof(boolThirdListVariable));
 						ptr += sizeof(boolThirdListVariable);
 					}
-					memcpy(ptr, (void *)(&sizeof(endofSecondVariable)), sizeof(sizeof(endofSecondVariable)));
-					ptr += sizeof(sizeof(endofSecondVariable));
+					memcpy(ptr, (void *)(&sizeof(endofSecondVariable)), sizeof(_int32));
+					ptr += sizeof(_int32);
 					memcpy(ptr, (void *)(&endofSecondVariable), sizeof(endofSecondVariable));
 					ptr += sizeof(endofSecondVariable);
 				}
 				memcpy(ptr, (void *)(&specialList.size()), sizeof(specialList.size()));
 				ptr += sizeof(specialList);
-				for(int specialListi=0;specialListi<specialList.size();specialListi++) {
-					memcpy(ptr, (void *)(&sizeof(stringSpecialListVariable)), sizeof(sizeof(stringSpecialListVariable)));
-					ptr += sizeof(sizeof(stringSpecialListVariable));
+				for(_int32 specialListi=0;specialListi<specialList.size();specialListi++) {
+					memcpy(ptr, (void *)(&sizeof(stringSpecialListVariable)), sizeof(_int32));
+					ptr += sizeof(_int32);
 					memcpy(ptr, (void *)(&stringSpecialListVariable), sizeof(stringSpecialListVariable));
 					ptr += sizeof(stringSpecialListVariable);
 					memcpy(ptr, (void *)(&longSpecialListVariable), sizeof(longSpecialListVariable));
@@ -222,73 +220,73 @@ namespace PDL
 			}
 		}
 
-		void Parsing(BYTE* byteStream) {
-			int index = 0, str_len;
-			int firstListLength;
-			memcpy(&firstListLength, (int *)byteStream + index, sizeof(int));
+		void Parsing(void* byteStream) {
+			_int32 index = 0, str_len;
+			_int32 firstListLength;
+			memcpy(&firstListLength, (_int32 *)byteStream + index, sizeof(_int32));
 			index += sizeof(firstListLength);
-			for(int firstListi=0;firstListi<firstListLength;firstListi++) {
+			for(_int32 firstListi=0;firstListi<firstListLength;firstListi++) {
 				TEST_FIRST_LIST firstListit;
-				memcpy(&str_len, (int *)byteStream + index, sizeof(int));
+				memcpy(&str_len, (_int32 *)byteStream + index, sizeof(_int32));
 				index += sizeof(str_len);
 				memcpy(&stringFirstListVariable, (char *)byteStream + index, (sizeof(char)*str_len));
 				index += sizeof(stringFirstListVariable);
-				memcpy(&longFirstListVariable, (long *)byteStream + index, sizeof(long));
+				memcpy(&longFirstListVariable, (_int64 *)byteStream + index, sizeof(_int64));
 				index += sizeof(longFirstListVariable);
-				memcpy(&intFirstListVariable, (int *)byteStream + index, sizeof(int));
+				memcpy(&intFirstListVariable, (_int32 *)byteStream + index, sizeof(_int32));
 				index += sizeof(intFirstListVariable);
 				memcpy(&boolFirstListVariable, (bool *)byteStream + index, sizeof(bool));
 				index += sizeof(boolFirstListVariable);
-				int secondListLength;
-				memcpy(&secondListLength, (int *)byteStream + index, sizeof(int));
+				_int32 secondListLength;
+				memcpy(&secondListLength, (_int32 *)byteStream + index, sizeof(_int32));
 				index += sizeof(secondListLength);
-				for(int secondListi=0;secondListi<secondListLength;secondListi++) {
+				for(_int32 secondListi=0;secondListi<secondListLength;secondListi++) {
 					TEST_FIRST_LIST::TEST_SECOND_LIST secondListit;
-					memcpy(&str_len, (int *)byteStream + index, sizeof(int));
+					memcpy(&str_len, (_int32 *)byteStream + index, sizeof(_int32));
 					index += sizeof(str_len);
 					memcpy(&stringSecondListVariable, (char *)byteStream + index, (sizeof(char)*str_len));
 					index += sizeof(stringSecondListVariable);
-					memcpy(&longSecondListVariable, (long *)byteStream + index, sizeof(long));
+					memcpy(&longSecondListVariable, (_int64 *)byteStream + index, sizeof(_int64));
 					index += sizeof(longSecondListVariable);
-					memcpy(&intSecondListVariable, (int *)byteStream + index, sizeof(int));
+					memcpy(&intSecondListVariable, (_int32 *)byteStream + index, sizeof(_int32));
 					index += sizeof(intSecondListVariable);
 					memcpy(&boolSecondListVariable, (bool *)byteStream + index, sizeof(bool));
 					index += sizeof(boolSecondListVariable);
-					int thirdListLength;
-					memcpy(&thirdListLength, (int *)byteStream + index, sizeof(int));
+					_int32 thirdListLength;
+					memcpy(&thirdListLength, (_int32 *)byteStream + index, sizeof(_int32));
 					index += sizeof(thirdListLength);
-					for(int thirdListi=0;thirdListi<thirdListLength;thirdListi++) {
+					for(_int32 thirdListi=0;thirdListi<thirdListLength;thirdListi++) {
 						TEST_FIRST_LIST::TEST_SECOND_LIST::TEST_THIRD_LIST thirdListit;
-						memcpy(&str_len, (int *)byteStream + index, sizeof(int));
+						memcpy(&str_len, (_int32 *)byteStream + index, sizeof(_int32));
 						index += sizeof(str_len);
 						memcpy(&stringThirdListVariable, (char *)byteStream + index, (sizeof(char)*str_len));
 						index += sizeof(stringThirdListVariable);
-						memcpy(&longThirdListVariable, (long *)byteStream + index, sizeof(long));
+						memcpy(&longThirdListVariable, (_int64 *)byteStream + index, sizeof(_int64));
 						index += sizeof(longThirdListVariable);
-						memcpy(&intThirdListVariable, (int *)byteStream + index, sizeof(int));
+						memcpy(&intThirdListVariable, (_int32 *)byteStream + index, sizeof(_int32));
 						index += sizeof(intThirdListVariable);
 						memcpy(&boolThirdListVariable, (bool *)byteStream + index, sizeof(bool));
 						index += sizeof(boolThirdListVariable);
 						secondListit.thirdList.push_back(thirdListit);
 					}
-					memcpy(&str_len, (int *)byteStream + index, sizeof(int));
+					memcpy(&str_len, (_int32 *)byteStream + index, sizeof(_int32));
 					index += sizeof(str_len);
 					memcpy(&endofSecondVariable, (char *)byteStream + index, (sizeof(char)*str_len));
 					index += sizeof(endofSecondVariable);
 					firstListit.secondList.push_back(secondListit);
 				}
-				int specialListLength;
-				memcpy(&specialListLength, (int *)byteStream + index, sizeof(int));
+				_int32 specialListLength;
+				memcpy(&specialListLength, (_int32 *)byteStream + index, sizeof(_int32));
 				index += sizeof(specialListLength);
-				for(int specialListi=0;specialListi<specialListLength;specialListi++) {
+				for(_int32 specialListi=0;specialListi<specialListLength;specialListi++) {
 					TEST_FIRST_LIST::TEST_SPECIAL_LIST specialListit;
-					memcpy(&str_len, (int *)byteStream + index, sizeof(int));
+					memcpy(&str_len, (_int32 *)byteStream + index, sizeof(_int32));
 					index += sizeof(str_len);
 					memcpy(&stringSpecialListVariable, (char *)byteStream + index, (sizeof(char)*str_len));
 					index += sizeof(stringSpecialListVariable);
-					memcpy(&longSpecialListVariable, (long *)byteStream + index, sizeof(long));
+					memcpy(&longSpecialListVariable, (_int64 *)byteStream + index, sizeof(_int64));
 					index += sizeof(longSpecialListVariable);
-					memcpy(&intSpecialListVariable, (int *)byteStream + index, sizeof(int));
+					memcpy(&intSpecialListVariable, (_int32 *)byteStream + index, sizeof(_int32));
 					index += sizeof(intSpecialListVariable);
 					memcpy(&boolSpecialListVariable, (bool *)byteStream + index, sizeof(bool));
 					index += sizeof(boolSpecialListVariable);
@@ -300,26 +298,26 @@ namespace PDL
 	};
 	class TEST_TT_PACKET_BOTH {
 	public:
-		string keyword = "";
+		string keyword;
 	
-		int GetStreamLength() {
-			int size=0;
-			size += sizeof(int);
+		_int32 GetStreamLength() {
+			_int32 size=0;
+			size += sizeof(_int32);
 			size += sizeof(keyword);
 			return size;
 		}
 
 		void Serialize(void* byteStream) {
 			char* ptr = (char*)byteStream;
-			memcpy(ptr, (void *)(&sizeof(keyword)), sizeof(sizeof(keyword)));
-			ptr += sizeof(sizeof(keyword));
+			memcpy(ptr, (void *)(&sizeof(keyword)), sizeof(_int32));
+			ptr += sizeof(_int32);
 			memcpy(ptr, (void *)(&keyword), sizeof(keyword));
 			ptr += sizeof(keyword);
 		}
 
-		void Parsing(BYTE* byteStream) {
-			int index = 0, str_len;
-			memcpy(&str_len, (int *)byteStream + index, sizeof(int));
+		void Parsing(void* byteStream) {
+			_int32 index = 0, str_len;
+			memcpy(&str_len, (_int32 *)byteStream + index, sizeof(_int32));
 			index += sizeof(str_len);
 			memcpy(&keyword, (char *)byteStream + index, (sizeof(char)*str_len));
 			index += sizeof(keyword);
