@@ -145,11 +145,22 @@ namespace macro
 			{
 				for (int i = 0; i < list_var.size(); i++)
 				{
+					string list_str;
+					int idx = i;
+					for (int j = i; j > 0; j--) {
+						if (list_var.at(idx).parent == list_var.at(j - 1).name) {
+							list_str.insert(0, list_var.at(j - 1).name + ".at(" + list_var.at(j - 1).name + "i).");
+							idx--;
+						}
+					}
+					list_str += list_var.at(i).name;
+
+
 					for (int j = 0; j < depth + i + 1 - cnt; j++) str_gsl += "\t";
 					str_gsl += "size += sizeof(_int32);\n";
 					for (int j = 0; j < depth + i + 1 - cnt; j++) str_gsl += "\t";
-					str_gsl += "for(_int32 " + list_var.at(i).name + "i;" + list_var.at(i).name
-						+ "i<;" + list_var.at(i).name + ".size();" + list_var.at(i).name + "i++) {\n";
+					str_gsl += "for(_int32 " + list_var.at(i).name + "i=0;" + list_var.at(i).name + "i<";
+					str_gsl += list_str + ".size();" + list_var.at(i).name + "i++) {\n";
 
 					for (int j = index; j < class_var.size(); j++, index++)
 					{
@@ -162,11 +173,24 @@ namespace macro
 						for (int k = 0; k < depth + i + 1 - cnt; k++) str_gsl += "\t";
 						if (class_var.at(j).type == "string")
 						{
+							string var_str;
+							int flag;
+							for (flag = i; flag>0; flag--) {
+								if (list_var.at(flag).name == class_var.at(j).parent)
+									break;
+							}
+							for (int k = i; k > 0; k--) {
+								if (list_var.at(flag).parent == list_var.at(k - 1).name) {
+									var_str.insert(0, list_var.at(k - 1).name + ".at(" + list_var.at(k - 1).name + "i).");
+									flag--;
+								}
+							}
+							var_str += class_var.at(j).parent + ".at(" + class_var.at(j).parent + "i)." + class_var.at(j).name;
+
 							str_gsl += "\tsize += sizeof(_int32);\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_gsl += "\t";
 							str_gsl += "size += (sizeof(char)*";
-							str_gsl += class_var.at(j).name;
-							str_gsl += ".length());\n";
+							str_gsl += var_str + ".length());\n";
 						}
 						else if (class_var.at(j).type == "close")
 						{
@@ -204,13 +228,14 @@ namespace macro
 
 					if (class_var.at(i).type == "string")
 					{
+						str_serialize += "int " + class_var.at(i).name + "Length = " + class_var.at(i).name + ".length();\n";
+						for (int j = 0; j < depth + 1; j++) str_serialize += "\t";
 						str_serialize += "memcpy(ptr, (void *)(&";
-						str_serialize += class_var.at(i).name;
-						str_serialize += ".length()), sizeof(_int32));\n";
+						str_serialize += class_var.at(i).name + "Length), sizeof(_int32));\n";
 						for (int j = 0; j < depth + 1; j++) str_serialize += "\t";
 						str_serialize += "ptr += sizeof(_int32);\n";
 						for (int j = 0; j < depth + 1; j++) str_serialize += "\t";
-						str_serialize += "for(_int32 i=0;i<" + class_var.at(i).name + ".length();i++) {\n";
+						str_serialize += "for(_int32 i=0;i<" + class_var.at(i).name + "Length;i++) {\n";
 						for (int j = 0; j < depth + 2; j++) str_serialize += "\t";
 						str_serialize += "memcpy(ptr, (void *)(&";
 						str_serialize += class_var.at(i).name;
@@ -241,19 +266,29 @@ namespace macro
 			else {
 				for (int i = 0; i < list_var.size(); i++)
 				{
+					string list_str;
+					int idx = i;
+					for (int j = i; j > 0; j--) {
+						if (list_var.at(idx).parent == list_var.at(j - 1).name) {
+							list_str.insert(0, list_var.at(j - 1).name + ".at(" + list_var.at(j - 1).name + "i).");
+							idx--;
+						}
+					}
+					list_str += list_var.at(i).name;
+
+
+					for (int j = 0; j < depth + i + 1 - cnt; j++) str_serialize += "\t"; // 리스트의 개수
+					str_serialize += "int " + list_var.at(i).name + "Size = " + list_str + ".size();\n";
 					for (int j = 0; j < depth + i + 1 - cnt; j++) str_serialize += "\t"; // 리스트의 개수
 					str_serialize += "memcpy(ptr, (void *)(&";
-					str_serialize += list_var.at(i).name;
-					str_serialize += ".size()), sizeof(";
-					str_serialize += list_var.at(i).name;
-					str_serialize += ".size()));\n";
+					str_serialize += list_var.at(i).name + "Size), sizeof(";
+					str_serialize += list_var.at(i).name + "Size));\n";
 					for (int j = 0; j < depth + i + 1 - cnt; j++) str_serialize += "\t";
 					str_serialize += "ptr += sizeof(";
-					str_serialize += list_var.at(i).name;
-					str_serialize += ");\n";
+					str_serialize += list_var.at(i).name + "Size);\n";
 					for (int j = 0; j < depth + i + 1 - cnt; j++) str_serialize += "\t";
 					str_serialize += "for(_int32 " + list_var.at(i).name + "i=0;" + list_var.at(i).name +
-						"i<" + list_var.at(i).name + ".size();" + list_var.at(i).name + "i++) {\n";
+						"i<" + list_var.at(i).name + "Size;" + list_var.at(i).name + "i++) {\n";
 
 					for (int j = index; j < class_var.size(); j++, index++)
 					{
@@ -263,19 +298,34 @@ namespace macro
 							break;
 						}
 
+						string var_str;
+						int flag;
+						for (flag = i; flag>0; flag--) {
+							if (list_var.at(flag).name == class_var.at(j).parent)
+								break;
+						}
+						for (int k = i; k > 0; k--) {
+							if (list_var.at(flag).parent == list_var.at(k - 1).name) {
+								var_str.insert(0, list_var.at(k - 1).name + ".at(" + list_var.at(k - 1).name + "i).");
+								flag--;
+							}
+						}
+						var_str += class_var.at(j).parent + ".at(" + class_var.at(j).parent + "i)." + class_var.at(j).name;
+
 						for (int k = 0; k < depth + i + 1 - cnt; k++) str_serialize += "\t";
 						if (class_var.at(j).type == "string")
 						{
-							str_serialize += "\tmemcpy(ptr, (void *)(&";
-							str_serialize += class_var.at(j).name;
-							str_serialize += ".length()), sizeof(_int32));\n";
+							str_serialize += "\tint " + class_var.at(j).name + "Length = " + var_str + ".length();\n";
+							for (int k = 0; k < depth + i + 2 - cnt; k++) str_serialize += "\t";
+							str_serialize += "memcpy(ptr, (void *)(&";
+							str_serialize += class_var.at(j).name + "Length), sizeof(_int32));\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_serialize += "\t";
 							str_serialize += "ptr += sizeof(_int32);\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_serialize += "\t";
-							str_serialize += "for(_int32 i=0;i<" + class_var.at(j).name + ".length();i++) {\n";
+							str_serialize += "for(_int32 i=0;i<" + class_var.at(j).name + "Length;i++) {\n";
 							for (int k = 0; k < depth + i + 3 - cnt; k++) str_serialize += "\t";
 							str_serialize += "memcpy(ptr, (void *)(&";
-							str_serialize += class_var.at(j).name;
+							str_serialize += var_str;// class_var.at(j).name;
 							str_serialize += ".at(i)), sizeof(char));\n";
 							for (int k = 0; k < depth + i + 3 - cnt; k++) str_serialize += "\t";
 							str_serialize += "ptr += sizeof(char);\n";
@@ -290,13 +340,13 @@ namespace macro
 						else
 						{
 							str_serialize += "\tmemcpy(ptr, (void *)(&";
-							str_serialize += class_var.at(j).name;
+							str_serialize += var_str;// class_var.at(j).name;
 							str_serialize += "), sizeof(";
-							str_serialize += class_var.at(j).name;
+							str_serialize += var_str;// class_var.at(j).name;
 							str_serialize += "));\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_serialize += "\t";
 							str_serialize += "ptr += sizeof(";
-							str_serialize += class_var.at(j).name;
+							str_serialize += var_str;// class_var.at(j).name;
 							str_serialize += ");\n";
 						}
 					}
@@ -329,7 +379,7 @@ namespace macro
 						for (int j = 0; j < depth + 1; j++) str_parsing += "\t";
 						str_parsing += "index += sizeof(str_len);\n";
 						for (int j = 0; j < depth + 1; j++) str_parsing += "\t";
-						str_parsing += "str = new char[str_len+1]\n";
+						str_parsing += "str = new char[str_len+1];\n";
 						for (int j = 0; j < depth + 1; j++) str_parsing += "\t";
 						str_parsing += "for(_int32 i=0;i<str_len;i++) {\n";
 						for (int j = 0; j < depth + 2; j++) str_parsing += "\t";
@@ -397,6 +447,22 @@ namespace macro
 							index++;
 							break;
 						}
+
+						string var_str;
+						int flag;
+						for (flag = i; flag>0; flag--) {
+							if (list_var.at(flag).name == class_var.at(j).parent)
+								break;
+						}
+						for (int k = i; k > 0; k--) {
+							if (list_var.at(flag).parent == list_var.at(k - 1).name) {
+								var_str.insert(0, list_var.at(k - 1).name + ".at(" + list_var.at(k - 1).name + "i).");
+								flag--;
+							}
+						}
+						var_str += class_var.at(j).parent + ".at(" + class_var.at(j).parent + "i)." + class_var.at(j).name;
+
+
 						for (int k = 0; k < depth + i + 1 - cnt; k++) str_parsing += "\t";
 						if (class_var.at(j).type == "string")
 						{
@@ -404,7 +470,7 @@ namespace macro
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
 							str_parsing += "index += sizeof(str_len);\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
-							str_parsing += "str = new char[str_len+1]\n";
+							str_parsing += "str = new char[str_len+1];\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
 							str_parsing += "for(_int32 i=0;i<str_len;i++) {\n";
 							for (int k = 0; k < depth + i + 3 - cnt; k++) str_parsing += "\t";
@@ -416,7 +482,7 @@ namespace macro
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
 							str_parsing += "str[str_len] = \'\\0\';\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
-							str_parsing += class_var.at(j).name + " = string(str);\n";
+							str_parsing += var_str + " = string(str);\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
 							str_parsing += "delete str;\n";
 						}
@@ -435,13 +501,13 @@ namespace macro
 						else
 						{
 							str_parsing += "\tmemcpy(&";
-							str_parsing += class_var.at(j).name;
+							str_parsing += var_str;//class_var.at(j).name;
 							str_parsing += ", (char *)byteStream + index, sizeof(";
 							str_parsing += class_var.at(j).type;
 							str_parsing += "));\n";
 							for (int k = 0; k < depth + i + 2 - cnt; k++) str_parsing += "\t";
 							str_parsing += "index += sizeof(";
-							str_parsing += class_var.at(j).name;
+							str_parsing += var_str;// class_var.at(j).name;
 							str_parsing += ");\n";
 						}
 					}
