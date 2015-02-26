@@ -25,6 +25,18 @@
     <Filter Include="헤더 파일\Macro">
       <UniqueIdentifier>{9cc64ed5-26d8-4f55-9354-e59d4f8873a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Handler">
+      <UniqueIdentifier>{aef6ace4-8a52-4267-8a88-9e5089ecca7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Type">
+      <UniqueIdentifier>{d975d242-b3eb-4cbe-9b17-fc54b817ddda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Handler">
+      <UniqueIdentifier>{23e9b580-de4b-478f-9440-79e7fb342c64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Type">
+      <UniqueIdentifier>{e2a03437-e02d-4011-a032-d9187c816774}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PDL.cpp">
@@ -33,6 +45,36 @@
     <ClCompile Include="Markup.cpp">
       <Filter>소스 파일\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="HandlerBase.cpp">
+      <Filter>소스 파일\Handler</Filter>
+    </ClCompile>
+    <ClCompile Include="CBool.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CCloseBrace.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CCloseClassBrace.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CInt.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CList.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CList_Var.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CLong.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CPacket.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="CString.cpp">
+      <Filter>소스 파일\Type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Markup.h">
@@ -40,6 +82,36 @@
     </ClInclude>
     <ClInclude Include="Macro.h">
       <Filter>헤더 파일\Macro</Filter>
+    </ClInclude>
+    <ClInclude Include="HandlerBase.h">
+      <Filter>헤더 파일\Handler</Filter>
+    </ClInclude>
+    <ClInclude Include="CBool.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CCloseBrace.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CCloseClassBrace.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CInt.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CList.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CList_Var.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CLong.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CPacket.h">
+      <Filter>헤더 파일\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="CString.h">
+      <Filter>헤더 파일\Type</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

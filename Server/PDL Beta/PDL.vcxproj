@@ -78,10 +78,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CBool.cpp" />
+    <ClCompile Include="CCloseBrace.cpp" />
+    <ClCompile Include="CCloseClassBrace.cpp" />
+    <ClCompile Include="CInt.cpp" />
+    <ClCompile Include="CList.cpp" />
+    <ClCompile Include="CList_Var.cpp" />
+    <ClCompile Include="CLong.cpp" />
+    <ClCompile Include="CPacket.cpp" />
+    <ClCompile Include="CString.cpp" />
+    <ClCompile Include="HandlerBase.cpp" />
     <ClCompile Include="Markup.cpp" />
     <ClCompile Include="PDL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CBool.h" />
+    <ClInclude Include="CCloseBrace.h" />
+    <ClInclude Include="CCloseClassBrace.h" />
+    <ClInclude Include="CInt.h" />
+    <ClInclude Include="CList.h" />
+    <ClInclude Include="CList_Var.h" />
+    <ClInclude Include="CLong.h" />
+    <ClInclude Include="CPacket.h" />
+    <ClInclude Include="CString.h" />
+    <ClInclude Include="HandlerBase.h" />
     <ClInclude Include="Macro.h" />
     <ClInclude Include="Markup.h" />
   </ItemGroup>
