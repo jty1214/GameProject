@@ -5,7 +5,7 @@
 #include <windows.h>
 
 #define WORK_MAX  7
-#define THREAD_MAX      50
+#define THREAD_MAX      20
 
 using namespace std;
 using namespace std::placeholders;
@@ -227,9 +227,22 @@ void WorkerThreadFunction(LPVOID pParam)
 	delete (ThreadParam *)pParam;
 }
 
-template <typename T, typename ...Args>
-function<DWORD()> asyncWorkInit(_ThreadPool *gThreadPool, T &object, DWORD (T::*mf)(Args...)) {
-	function<DWORD()> fuc = bind((object.*mf), &object, 2);
-	function<DWORD()> asyncWork = bind(AddWorkToPool, gThreadPool, fuc);
-	return asyncWork;
+template <class Functor, class Actor, class... Args>
+DWORD DoAsync(_ThreadPool *gThreadPool, Functor&& func, Actor&& actor, Args&&... args) {
+	std::function<DWORD()> async = bind(func, actor, args...);
+	return AddWorkToPool(gThreadPool, async);
+}
+
+template <class Functor, class Actor, class... Args>
+DWORD DoTimer(DWORD ms, _ThreadPool *gThreadPool, Functor&& func, Actor&& actor, Args&&... args) {
+
+	std::function<DWORD()> async = bind(func, actor, args...);
+	std::function<DWORD()> timer = bind(_TimeAfterWork, ms, async);
+	return AddWorkToPool(gThreadPool, timer);
+}
+
+DWORD _TimeAfterWork(DWORD ms, WORK func)
+{
+	Sleep(ms);
+	return func();
 }

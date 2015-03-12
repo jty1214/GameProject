@@ -7,7 +7,7 @@ class user {
 public:
 	DWORD is_prime2(int x, int y)
 	{
-		Sleep(1000);
+//		Sleep(1000);
 		bool res = false;
 		//printf("Calculating. Please, wait...\n");
 		for (int i = 2; i < x; ++i) if (x%i == 0) res = false;
@@ -25,15 +25,14 @@ int main(int argc, char* argv[])
 	user u;
 	_ThreadPool *gThreadPool = new _ThreadPool;
 	initThreadPool(gThreadPool);
-	MakeThreadToPool(gThreadPool, 3);
+	MakeThreadToPool(gThreadPool, THREAD_MAX);
 
-	//======
-	function<DWORD()> fuc = bind(&user::is_prime2, &u, 2, 3);
-	auto asyncWork = bind(AddWorkToPool, _1, fuc);
-	//======
-	//auto asyncWork = asyncWorkInit(gThreadPool, u, &user::is_prime2);
-	for (int i = 0; i < 21; i++)
-		asyncWork(gThreadPool);		
+	DoTimer(20000, gThreadPool, &user::is_prime2, u, 1000, 1200);
+	DoTimer(11000, gThreadPool, &user::is_prime2, u, 2500, 2000);
+	for (int i = 0; i < 20000; i++)
+	{
+		DoAsync(gThreadPool, &user::is_prime2, u, i+2, i+3);
+	}
 	Sleep(50000);  // main 쓰레드가 먼저 소멸되는 현상을 방지하기 위해
 
 	return 0;
