@@ -3,3 +3,9 @@ Client/PDLTest/PDLTest/obj/
 Client/PDL/PDL/bin/
 Client/PDL/PDL/obj/
 Client/SAMPLE_Data/output_log.txt
+*.tlog
+Server/PDL/Debug/vc120.idb
+Server/Test/Test/Debug/
+Server/C# 통신 Server & Client/FPSClient/bin/
+Server/GPServer/GPServer/Debug/
+Server/C# 통신 Server & Client/FPSClient/obj/
