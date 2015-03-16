@@ -3,9 +3,12 @@
 #include <iostream>
 #include <functional> 
 #include <windows.h>
+#include <vector>
 
-#define WORK_MAX  7
+#define WORK_MAX  10000
 #define THREAD_MAX      20
+#define THREAD_WAITING 0
+#define THREAD_RUNNING 1
 
 using namespace std;
 using namespace std::placeholders;
@@ -21,12 +24,12 @@ typedef struct __WorkerThread
 typedef struct
 {
 	WORK workList[WORK_MAX];
-	//LPVOID pParam[WORK_MAX];
 	DWORD wResult[WORK_MAX];
 	HANDLE circularEvent;
 
 	WorkerThread workerThreadList[THREAD_MAX];
-	HANDLE workerEventList[THREAD_MAX];
+	HANDLE workerEventList[THREAD_MAX];	
+	INT32 statusEventList[THREAD_MAX];
 
 	DWORD idxOfCurrentWork;
 	DWORD idxOfLastAddedWork;
@@ -51,39 +54,9 @@ void initThreadPool(_ThreadPool *gThreadPool);
 // Mutex 관련 함수들
 // gThreadPool에 대한 접근을 보호하기 위해 정의
 //************************************************************//
-/*
-static HANDLE mutex = NULL;
 
-void InitMutex(void)
-{
-mutex = CreateMutex(NULL, FALSE, NULL);
-}
+static CRITICAL_SECTION m_cs;
 
-void DeInitMutex(void)
-{
-BOOL ret = CloseHandle(mutex);
-}
-
-void AcquireMutex(void)
-{
-DWORD ret = WaitForSingleObject(mutex, INFINITE);
-
-if (ret == WAIT_FAILED)
-{
-printf("Error Occur! \n");
-}
-}
-
-void ReleaseMutex(void)
-{
-BOOL ret = ReleaseMutex(mutex);
-
-if (ret == 0)
-{
-printf("Error Occur! \n");
-}
-}
-*/
 //************************************************************//
 // Thread Pool 초기화를 위한 함수
 //
@@ -96,8 +69,11 @@ void initThreadPool(_ThreadPool *gThreadPool) {
 	gThreadPool->threadIdx = 0;
 	gThreadPool->circularEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	memset(gThreadPool->wResult, 0, WORK_MAX);
-	memset(gThreadPool->workerEventList, 0, THREAD_MAX);
-	memset(gThreadPool->workerThreadList, 0, THREAD_MAX);
+	memset(gThreadPool->workerEventList, 0, THREAD_MAX * sizeof(HANDLE));
+	memset(gThreadPool->statusEventList, THREAD_WAITING, THREAD_MAX * sizeof(INT32));
+	//for (int i = 0; i < THREAD_MAX; i++)
+	//	gThreadPool->statusEventList[i] = THREAD_RUNNING;
+	memset(gThreadPool->workerThreadList, 0, THREAD_MAX * sizeof(WorkerThread));
 	
 }
 //************************************************************//
@@ -105,8 +81,7 @@ void initThreadPool(_ThreadPool *gThreadPool) {
 //
 //************************************************************//
 DWORD AddWorkToPool(_ThreadPool *gThreadPool, WORK work)
-{
-	//AcquireMutex();
+{	
 	if (gThreadPool->idxOfLastAddedWork >= WORK_MAX)
 	{		
 		WaitForSingleObject(gThreadPool->circularEvent, INFINITE);
@@ -116,15 +91,17 @@ DWORD AddWorkToPool(_ThreadPool *gThreadPool, WORK work)
 	// Work 등ìi록¤I.
 	gThreadPool->workList[gThreadPool->idxOfLastAddedWork++] = work;
 	gThreadPool->cntOfLastAddedWork++;
-	//gThreadPool->pParam[gThreadPool->idxOfLastAddedWork++] = pParam;
 
 	// Work 등록 후 대기중인 쓰레드 들을 모두 꺠워 일을 시작하도록 함.
 	// 모두를 깨울 필요 없으므로 정교함이 떨어지는 부분이다.
-	for (DWORD i = 0; i<gThreadPool->threadIdx; i++)
-		SetEvent(gThreadPool->workerEventList[i]);
 
-	//ReleaseMutex();
-
+	for (DWORD i = 0; i < gThreadPool->threadIdx; i++) {
+		if (gThreadPool->statusEventList[i] == THREAD_WAITING) {			
+			SetEvent(gThreadPool->workerEventList[i]);		
+			gThreadPool->statusEventList[i] = THREAD_RUNNING;
+			break;
+		}			
+	}
 	return 1;
 }
 
@@ -135,19 +112,15 @@ DWORD AddWorkToPool(_ThreadPool *gThreadPool, WORK work)
 //************************************************************//
 int GetWorkFromPool(_ThreadPool *gThreadPool)
 {
-	//AcquireMutex();	
 	// 현재 처리해야 할 Work 가 존재하지 않다면..
 	if (gThreadPool->idxOfCurrentWork >= WORK_MAX) {
 		SetEvent(gThreadPool->circularEvent);
 		gThreadPool->idxOfCurrentWork = 0;
 	}
-	if (gThreadPool->cntOfCurrentWork >= gThreadPool->cntOfLastAddedWork)
-	{
-		//ReleaseMutex();
-		return -1;
-	}		
+	EnterCriticalSection(&m_cs);
+	while (gThreadPool->cntOfCurrentWork >= gThreadPool->cntOfLastAddedWork);
+	LeaveCriticalSection(&m_cs);
 	//work = gThreadPool->workList[gThreadPool->idxOfCurrentWork++];
-	//ReleaseMutex();
 	gThreadPool->cntOfCurrentWork++;
 	return gThreadPool->idxOfCurrentWork++;
 }
@@ -160,7 +133,7 @@ int GetWorkFromPool(_ThreadPool *gThreadPool)
 //************************************************************//
 DWORD MakeThreadToPool(_ThreadPool *gThreadPool, DWORD numOfThread)
 {
-	//InitMutex();
+	InitializeCriticalSection(&m_cs);
 
 	DWORD capacity = WORK_MAX - (gThreadPool->threadIdx);
 
@@ -171,12 +144,13 @@ DWORD MakeThreadToPool(_ThreadPool *gThreadPool, DWORD numOfThread)
 	{
 		DWORD idThread;
 		HANDLE hThread;
-		ThreadParam *tp = new ThreadParam;
-		tp->gThreadPool = gThreadPool;
-		tp->pParam = (LPVOID)gThreadPool->threadIdx;
 
 		gThreadPool->workerEventList[gThreadPool->threadIdx]
 			= CreateEvent(NULL, FALSE, FALSE, NULL);
+
+		ThreadParam *tp = new ThreadParam;
+		tp->gThreadPool = gThreadPool;
+		tp->pParam = (LPVOID)gThreadPool->threadIdx;
 
 		hThread = CreateThread(
 			NULL, 0,
@@ -202,22 +176,20 @@ void WorkerThreadFunction(LPVOID pParam)
 	ThreadParam tp = *(ThreadParam *)pParam;
 	WORK workFunction;
 	//LPVOID param;
-	HANDLE event = tp.gThreadPool->workerEventList[(DWORD)tp.pParam];	
-	WorkerThread wThread = tp.gThreadPool->workerThreadList[(DWORD)tp.pParam];	
+	HANDLE event = tp.gThreadPool->workerEventList[(DWORD)tp.pParam];
 	while (1)
 	{
-		// work = gThreadPool->workList[gThreadPool->idxOfCurrentWork++];
-		int index = GetWorkFromPool(tp.gThreadPool);		
-		//param = tp.gThreadPool->pParam[index];
+		int index = GetWorkFromPool(tp.gThreadPool);
 		
-		if (index == -1)
-		{
-			WaitForSingleObject(event, INFINITE);
-			continue;
-		}		
-		workFunction = tp.gThreadPool->workList[index];
-		try {
-			tp.gThreadPool->wResult[index] = workFunction();
+		if (tp.gThreadPool->statusEventList[(DWORD)tp.pParam] == THREAD_WAITING) {
+			WaitForSingleObject(event, INFINITE);			
+		}
+		try {		
+			//EnterCriticalSection(&m_cs);
+			workFunction = tp.gThreadPool->workList[index];
+			tp.gThreadPool->wResult[index] = workFunction();		
+			tp.gThreadPool->statusEventList[(DWORD)tp.pParam] = THREAD_WAITING;
+			//LeaveCriticalSection(&m_cs);
 		}
 		catch (const bad_function_call& e) {			
 			cout << index << ": " << e.what() << '\n';
