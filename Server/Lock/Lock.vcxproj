@@ -79,12 +79,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Lock.cpp" />
+    <ClCompile Include="LockFreeQueue.cpp" />
     <ClCompile Include="ScopedReadLock.cpp" />
+    <ClCompile Include="ScopedSpinReadLock.cpp" />
+    <ClCompile Include="ScopedSpinWriteLock.cpp" />
     <ClCompile Include="ScopedWriteLock.cpp" />
     <ClCompile Include="SpinLock.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LockFreeQueue.h" />
     <ClInclude Include="ScopedReadLock.h" />
+    <ClInclude Include="ScopedSpinReadLock.h" />
+    <ClInclude Include="ScopedSpinWriteLock.h" />
     <ClInclude Include="ScopedWriteLock.h" />
     <ClInclude Include="SpinLock.h" />
   </ItemGroup>
