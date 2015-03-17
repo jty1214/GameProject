@@ -28,12 +28,12 @@ int main(int argc, char* argv[])
 	MakeThreadToPool(gThreadPool, 3);
 	//DoTimer(20000, gThreadPool, &user::is_prime2, u, 1000, 1200);
 	//DoTimer(11000, gThreadPool, &user::is_prime2, u, 2500, 2000);
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		DoAsync(gThreadPool, &user::is_prime2, u, i);
 	}
-	Sleep(10000);
-	for (int i = 0; i < 100; i++)
+	Sleep(5000);
+	for (int i = 0; i < 10; i++)
 	{
 		DoAsync(gThreadPool, &user::is_prime2, u, i);
 	}

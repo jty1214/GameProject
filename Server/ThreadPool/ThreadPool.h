@@ -86,22 +86,18 @@ DWORD AddWorkToPool(_ThreadPool *gThreadPool, WORK work)
 	{		
 		WaitForSingleObject(gThreadPool->circularEvent, INFINITE);
 		gThreadPool->idxOfLastAddedWork = 0;
-	}
-
+	}	
 	// Work 등ìi록¤I.
-	gThreadPool->workList[gThreadPool->idxOfLastAddedWork++] = work;
-	gThreadPool->cntOfLastAddedWork++;
-
+	gThreadPool->workList[gThreadPool->idxOfLastAddedWork] = work;	
 	// Work 등록 후 대기중인 쓰레드 들을 모두 꺠워 일을 시작하도록 함.
-	// 모두를 깨울 필요 없으므로 정교함이 떨어지는 부분이다.
-
-	for (DWORD i = 0; i < gThreadPool->threadIdx; i++) {
-		if (gThreadPool->statusEventList[i] == THREAD_WAITING) {			
-			SetEvent(gThreadPool->workerEventList[i]);		
-			gThreadPool->statusEventList[i] = THREAD_RUNNING;
-			break;
-		}			
+	// 모두를 깨울 필요 없으므로 정교함이 떨어지는 부분이다.		
+	if (gThreadPool->cntOfCurrentWork >= gThreadPool->cntOfLastAddedWork) {
+		for (DWORD i = 0; i < gThreadPool->threadIdx; i++) {
+			SetEvent(gThreadPool->workerEventList[i]);
+		}
 	}
+	gThreadPool->idxOfLastAddedWork++;
+	gThreadPool->cntOfLastAddedWork++;
 	return 1;
 }
 
@@ -117,9 +113,10 @@ int GetWorkFromPool(_ThreadPool *gThreadPool)
 		SetEvent(gThreadPool->circularEvent);
 		gThreadPool->idxOfCurrentWork = 0;
 	}
-	EnterCriticalSection(&m_cs);
-	while (gThreadPool->cntOfCurrentWork >= gThreadPool->cntOfLastAddedWork);
-	LeaveCriticalSection(&m_cs);
+	if (gThreadPool->cntOfCurrentWork >= gThreadPool->cntOfLastAddedWork)
+	{
+		return -1;
+	}
 	//work = gThreadPool->workList[gThreadPool->idxOfCurrentWork++];
 	gThreadPool->cntOfCurrentWork++;
 	return gThreadPool->idxOfCurrentWork++;
@@ -178,20 +175,21 @@ void WorkerThreadFunction(LPVOID pParam)
 	//LPVOID param;
 	HANDLE event = tp.gThreadPool->workerEventList[(DWORD)tp.pParam];
 	while (1)
-	{
+	{		
+		EnterCriticalSection(&m_cs);		
 		int index = GetWorkFromPool(tp.gThreadPool);
-		
-		if (tp.gThreadPool->statusEventList[(DWORD)tp.pParam] == THREAD_WAITING) {
+		LeaveCriticalSection(&m_cs);	
+		if (index == -1)
+		{
 			WaitForSingleObject(event, INFINITE);			
-		}
-		try {		
-			//EnterCriticalSection(&m_cs);
+			continue;
+		}	
+			
+		try {
 			workFunction = tp.gThreadPool->workList[index];
-			tp.gThreadPool->wResult[index] = workFunction();		
-			tp.gThreadPool->statusEventList[(DWORD)tp.pParam] = THREAD_WAITING;
-			//LeaveCriticalSection(&m_cs);
+			tp.gThreadPool->wResult[index] = workFunction();
 		}
-		catch (const bad_function_call& e) {			
+		catch (const bad_function_call& e) {
 			cout << index << ": " << e.what() << '\n';
 			//AddWorkToPool(tp.gThreadPool, tp.gThreadPool->workList[index]);
 		}
