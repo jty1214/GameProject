@@ -70,9 +70,7 @@ void initThreadPool(_ThreadPool *gThreadPool) {
 	gThreadPool->circularEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	memset(gThreadPool->wResult, 0, WORK_MAX);
 	memset(gThreadPool->workerEventList, 0, THREAD_MAX * sizeof(HANDLE));
-	memset(gThreadPool->statusEventList, THREAD_WAITING, THREAD_MAX * sizeof(INT32));
-	//for (int i = 0; i < THREAD_MAX; i++)
-	//	gThreadPool->statusEventList[i] = THREAD_RUNNING;
+	//memset(gThreadPool->statusEventList, THREAD_WAITING, THREAD_MAX * sizeof(INT32));	
 	memset(gThreadPool->workerThreadList, 0, THREAD_MAX * sizeof(WorkerThread));
 	
 }
@@ -91,10 +89,11 @@ DWORD AddWorkToPool(_ThreadPool *gThreadPool, WORK work)
 	gThreadPool->workList[gThreadPool->idxOfLastAddedWork] = work;	
 	// Work 등록 후 대기중인 쓰레드 들을 모두 꺠워 일을 시작하도록 함.
 	// 모두를 깨울 필요 없으므로 정교함이 떨어지는 부분이다.		
-	if (gThreadPool->cntOfCurrentWork >= gThreadPool->cntOfLastAddedWork) {
-		for (DWORD i = 0; i < gThreadPool->threadIdx; i++) {
+	for (DWORD i = 0; i < gThreadPool->threadIdx; i++) {
+		if (gThreadPool->statusEventList[i] == THREAD_WAITING){
 			SetEvent(gThreadPool->workerEventList[i]);
-		}
+			break;
+		}				
 	}
 	gThreadPool->idxOfLastAddedWork++;
 	gThreadPool->cntOfLastAddedWork++;
@@ -161,6 +160,7 @@ DWORD MakeThreadToPool(_ThreadPool *gThreadPool, DWORD numOfThread)
 
 		gThreadPool->threadIdx++;
 	}
+	Sleep(2000);	//임의로 모든 스레드가 생성될 때까지 대기
 	return numOfThread; // Return added thread number!
 }
 DWORD* GetResult(_ThreadPool *gThreadPool) {
@@ -181,10 +181,11 @@ void WorkerThreadFunction(LPVOID pParam)
 		LeaveCriticalSection(&m_cs);	
 		if (index == -1)
 		{
+			tp.gThreadPool->statusEventList[(DWORD)tp.pParam] = THREAD_WAITING;			
 			WaitForSingleObject(event, INFINITE);			
+			tp.gThreadPool->statusEventList[(DWORD)tp.pParam] = THREAD_RUNNING;
 			continue;
-		}	
-			
+		}				
 		try {
 			workFunction = tp.gThreadPool->workList[index];
 			tp.gThreadPool->wResult[index] = workFunction();

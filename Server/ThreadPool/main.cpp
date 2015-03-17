@@ -25,18 +25,13 @@ int main(int argc, char* argv[])
 	user u;
 	_ThreadPool *gThreadPool = new _ThreadPool;
 	initThreadPool(gThreadPool);
-	MakeThreadToPool(gThreadPool, 3);
+	MakeThreadToPool(gThreadPool, THREAD_MAX);
 	//DoTimer(20000, gThreadPool, &user::is_prime2, u, 1000, 1200);
 	//DoTimer(11000, gThreadPool, &user::is_prime2, u, 2500, 2000);
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		DoAsync(gThreadPool, &user::is_prime2, u, i);
-	}
-	Sleep(5000);
-	for (int i = 0; i < 10; i++)
-	{
-		DoAsync(gThreadPool, &user::is_prime2, u, i);
-	}
+	}	
 	Sleep(50000);  // main 쓰레드가 먼저 소멸되는 현상을 방지하기 위해
 
 	return 0;
